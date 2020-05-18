@@ -1,4 +1,9 @@
 package list;
+/**
+ * leetcod 206
+ * @author LANG
+ *
+ */
 
 public class Reverse {
 
@@ -17,7 +22,7 @@ public class Reverse {
 		node4.next=node5;
 		
 		Reverse reverse=new Reverse();
-		System.out.println(reverse.reverseList(node1));;
+		System.out.println(reverse.reverseList3(node1));;
 	}
 
 	/**
@@ -48,7 +53,7 @@ public class Reverse {
     }
 	
 	/**
-	 * 解法2、递归法
+	 * 解法2、新建一个头，作为新链表的头，使用头插法，将原有链表的头不停的插到newHead的后一个位置
 	 * 
 	 * 
 	 * @param head
@@ -58,13 +63,37 @@ public class Reverse {
 		if (head==null||head.next==null) {
 			return head;
 		}
-		ListNode firstListNode=head;
-		ListNode secondListNode=head.next;
-		head.next=null;
-		reverse(secondListNode).next=firstListNode;
+		ListNode newHead=new ListNode(0);
+		ListNode first=head;
+		while(first!=null){
+			ListNode temp=first.next;
+			first.next=newHead.next;
+			newHead.next=first;
+			first=temp;
+		}
+		
+		return newHead.next;
+				
 	}
 	
-	public ListNode reverse(ListNode head) {
+	/**
+	 * 解法3 递归
+	 * @param head
+	 * @return
+	 */
+	public ListNode reverseList3(ListNode head) {
+		if (head==null||head.next==null) {
+			return head;
+		}
+		//这才是递归的真正用法，遍历到最后一个得到了新的头
+		ListNode newHead=reverseList3(head.next);
 		
+//		newHead.next=head;
+		head.next.next=head;
+		head.next=null;
+		
+		return newHead;
 	}
+	
+	
 }
