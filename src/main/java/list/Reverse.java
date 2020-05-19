@@ -77,7 +77,7 @@ public class Reverse {
 	}
 	
 	/**
-	 * 解法3 递归
+	 * 解法3 递归 没有理解
 	 * @param head
 	 * @return
 	 */
