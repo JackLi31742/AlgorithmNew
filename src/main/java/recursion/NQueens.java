@@ -1,5 +1,6 @@
 package recursion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,11 +15,63 @@ public class NQueens {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+//		NQueens nQueens=new NQueens();
+//		nQueens.max=8;
+//		nQueens.list=new ArrayList<Integer>(8);
+//		System.out.println(nQueens.list);
+//		nQueens.check(0);
+//		System.out.println(nQueens.count);
+		
+		List<Integer> list=new ArrayList<>(8);
+		System.out.println(list);
+		
+		int []arr=new int[8];
+		for (int i = 0; i < arr.length; i++) {
+			
+			System.out.println(i+":"+arr[i]);
+		}
+		
 	}
 	
-	public List<List<String>> solveNQueens(int n) {
-
+	/**
+	 * 51. N皇后
+	 * @param n
+	 * @return
+	 */
+	int count=0;
+	int max=0;
+	List<Integer> list=null;
+//	public List<List<String>> solveNQueens(int n) {
+//		max=n;
+//		list=new ArrayList<Integer>(max);
+//		check(n);
+//		
+//	}
+	
+	public void check(int n){
+		if (n==max) {
+			count++;
+			return ;
+		}
+		
+		for (int i = 0; i < max; i++) {
+			
+			list.set(n, i);
+			if (judge(n)) {
+				check(n+1);
+			}
+		}
+		
+	}
+	
+	public boolean judge(int n){
+		for (int i = 0; i < n; i++) {
+			if (list.get(i)==list.get(n)||Math.abs(n-i)==Math.abs(list.get(i)-list.get(n))) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 }
