@@ -235,12 +235,12 @@ public class Traversal {
 				stack.push(cur.right);
 				cur=cur.right;
 			}else {
-				break;
+				
+				if(!stack.isEmpty()) {
+					result.add(stack.pop().val);
+				}
 			}
 			
-		}
-		while(!stack.isEmpty()) {
-			result.add(stack.pop().val);
 		}
 		return result;
 	}
