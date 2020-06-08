@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import com.sun.media.sound.RIFFInvalidDataException;
+
 public class Traversal {
 
 	public static void main(String[] args) {
@@ -221,25 +223,29 @@ public class Traversal {
 		}
 		TreeNode cur=root;
 		
-		Stack<TreeNode> stack=new Stack<TreeNode>();
+		Stack<Node> stack=new Stack<Node>();
 		
-		stack.push(cur);
-		
-		while(cur!=null) {
+		while(cur!=null||!stack.isEmpty()) {
 			
-			while (cur.left!=null) {
-				stack.push(cur.left);
+			//一直找到左子树的最左边
+			while (cur!=null) {
+				Node node=new Node(cur, false);
+				stack.push(node);
 				cur=cur.left;
 			}
-			if (cur.right!=null) {
-				stack.push(cur.right);
-				cur=cur.right;
-			}else {
-				
-				if(!stack.isEmpty()) {
-					result.add(stack.pop().val);
+			
+			if (!stack.isEmpty()) {
+				if (!stack.peek().flag) {
+					cur=stack.peek().treeNode.right;
+					//标明从左边的子树返回到了根节点
+					stack.peek().flag=true;
+					
+				}else {
+					result.add(stack.pop().treeNode.val);
+					
 				}
 			}
+			
 			
 		}
 		return result;
