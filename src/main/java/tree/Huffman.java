@@ -1,20 +1,21 @@
 package tree;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+import java.util.LinkedList;
 
 public class Huffman {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		int[]arr= {13,7,8,3,29,6,1};
+		System.out.println(huffman(arr));;
 	}
 	
-	public static void huffman(int[] arr){
+	public static TreeNode huffman(int[] arr){
 		
-		List<TreeNode> list=new ArrayList<>();
+		LinkedList<TreeNode> list=new LinkedList<>();
 		for (int i = 0; i < arr.length; i++) {
 			TreeNode node=new TreeNode(arr[i]);
 			list.add(node);
@@ -30,10 +31,26 @@ public class Huffman {
 			
 		};
 		
-		Collections.sort(list,comparator);
+		while(list.size()>1) {
+			
+			Collections.sort(list,comparator);
+			
+			TreeNode leftNode=list.get(0);
+			TreeNode rightNode=list.get(1);
+			
+			TreeNode parentNode=new TreeNode(leftNode.val+rightNode.val);
+			
+			parentNode.left=leftNode;
+			parentNode.right=rightNode;
+			list.removeFirst();
+			list.removeFirst();
+			
+			list.add(parentNode);
+		}
 		
-		
+		return list.getFirst();
 		
 	}
 
 }
+
