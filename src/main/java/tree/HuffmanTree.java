@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
-public class Huffman {
+public class HuffmanTree {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
