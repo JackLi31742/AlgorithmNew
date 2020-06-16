@@ -2,16 +2,14 @@ package tree;
 
 public class HuffmanNode {
 	
-	String data;
+	Character data;
 	int weight;
 	HuffmanNode left ;
 	HuffmanNode right ;
-	public HuffmanNode(String data, int weight, HuffmanNode left, HuffmanNode right) {
+	public HuffmanNode(Character data, int weight) {
 		super();
 		this.data = data;
 		this.weight = weight;
-		this.left = left;
-		this.right = right;
 	}
 	@Override
 	public String toString() {
