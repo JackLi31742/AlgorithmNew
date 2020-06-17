@@ -1,6 +1,8 @@
 package tree;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,9 +15,17 @@ public class HuffmanCode {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String string="i like like like java do you like a java";
+//		String string="i like like like java do you like a java";
+//		System.out.println(getNodes(string));
+//		int[] result=zip(string,getCodes(getHuffmanTree(getNodes(string))));
+//		System.out.println(Arrays.toString(result));
+//		unzip(result);
+//		System.out.println();
+//		
+//		System.out.println(Integer.MAX_VALUE);
+//		System.out.println(Integer.MIN_VALUE);
 		
-		System.out.println(getCodes(getHuffmanTree(getNodes(string))));
+		System.out.println(Byte.valueOf(String.valueOf(168)));
 		
 	}
 	
@@ -101,4 +111,57 @@ public class HuffmanCode {
 		}
 	}
 	
+	
+	//4、压缩，把得到的sb转换成byte[]
+	public static int[] zip(String s,Map<Character, String> map) {
+		StringBuilder sb =new StringBuilder();
+		for (int i = 0; i < s.length(); i++) {
+			char ch=s.charAt(i);
+			sb.append(map.get(ch));
+		}
+		
+		System.out.println(sb.toString());
+		int len=0;
+		if (sb.length()%8==0) {
+			len=sb.length()/8;
+		}else {
+			len=sb.length()/8+1;
+		}
+		
+		int index=0;
+		int[] huffmanByte=new int[len];
+		for (int i = 0; i < sb.length(); i+=8) {
+			
+			if (i+8>sb.length()) {
+				huffmanByte[index]=Integer.parseInt(sb.substring(i),2);
+//				huffmanByte[index]=Byte.parseByte(sb.substring(i),2);
+			}else {
+				huffmanByte[index]=Integer.parseInt(sb.substring(i,i+8),2);
+//				huffmanByte[index]=Byte.parseByte(sb.substring(i,i+8),2);
+			}
+			index++;
+		}
+		
+		return huffmanByte;
+	}
+	
+	/**
+	 *   将byte[]转换成原始字符串
+	 */
+	
+	/**
+	 * 计算机中使用补码表示
+	 * 正数的补码和原码一样
+	 * 负数的补码是正数的反码+1
+	 * @param huffmanByte
+	 */
+	public static void unzip(int[] huffmanByte) {
+		
+		StringBuilder sb=new StringBuilder();
+		for (int i = 0; i < huffmanByte.length; i++) {
+				sb.append(Integer.toBinaryString(huffmanByte[i]&0xff));
+		}
+		
+		System.out.println(sb.toString());
+	}
 }
