@@ -1,12 +1,16 @@
 package tree;
 
+/**
+ * 节点
+ *
+ */
 public class HuffmanNode {
 	
-	Character data;
-	int weight;
+	Byte data;//值
+	int weight;//出现的次数
 	HuffmanNode left ;
 	HuffmanNode right ;
-	public HuffmanNode(Character data, int weight) {
+	public HuffmanNode(Byte data, int weight) {
 		super();
 		this.data = data;
 		this.weight = weight;
