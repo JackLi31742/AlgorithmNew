@@ -2,6 +2,7 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 
 public class AdjacencyMatrix {
 	
@@ -10,14 +11,17 @@ public class AdjacencyMatrix {
 	private int[][] edges;
 	
 	//建立的是edges对应的是否访问的数组
-	private boolean[][] visited;
+//	private boolean[][] visited;
 
 	//vertexs对应的是否访问的数组
 	private boolean[] isVisited;
+	
+	
 	public AdjacencyMatrix(int n) {
 		this.vertexs = new ArrayList<String>(n);
 		this.edges = new int[n][n] ;
-		this.visited=new boolean[n][n];
+//		this.visited=new boolean[n][n];
+		isVisited=new boolean[n];
 	}
 
 	public ArrayList<String> getVertexs() {
@@ -53,6 +57,36 @@ public class AdjacencyMatrix {
 		}
 	}
 	
+	public void dfs(int i){
+		isVisited[i]=true;
+		System.out.println(this.vertexs.get(i));
+		for (int j = 0; j < this.vertexs.size(); j++) {
+			if (edges[i][j]==1&&isVisited[j]==false) {
+				dfs(j);
+			}
+		}
+	}
+	
+	
+	public void bfs(int i){
+		System.out.println(this.vertexs.get(i));
+		isVisited[i]=true;
+		
+		LinkedList<Integer> queue=new LinkedList<>();
+		
+		queue.add(i);
+		
+		while(!queue.isEmpty()){
+			int cur=queue.poll();
+			for (int j = 0; j < edges[cur].length; j++) {
+				if (edges[cur][j]==1&&!isVisited[j]) {
+					System.out.println(this.vertexs.get(j));
+					isVisited[j]=true;
+					queue.add(j);
+				}
+			}
+		}
+	}
 	
 
 }

@@ -1,6 +1,7 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * https://www.cnblogs.com/skywang12345/p/3707612.html
@@ -11,10 +12,13 @@ public class AdjacencyList {
 	
 	private ArrayList<VNode> vNodes;
 	
+	private boolean[] isVisited;
+	
 	
 	public AdjacencyList(int n) {
 		super();
 		this.vNodes = new ArrayList<VNode>(n);
+		this.isVisited=new boolean[n];
 	}
 
 	//顶点个数
@@ -57,6 +61,50 @@ public class AdjacencyList {
 		vNode2.first=qENode;
 	}
 	
+	
+	public void dfs(int i){
+		isVisited[i]=true;
+		VNode vnode=this.vNodes.get(i);
+		System.out.println(vnode.data);
+		
+		ENode eNode=vnode.first;
+		
+		while(eNode!=null){
+			if (!isVisited[eNode.index]) {
+				
+				dfs(eNode.index);
+			}
+			eNode=eNode.next;
+		}
+	}
+	
+	public void bfs(int i){
+		LinkedList<Integer> queue=new LinkedList<>();
+		
+		//访问
+		System.out.println(this.vNodes.get(i).data);
+		//标记已访问
+		isVisited[i]=true;
+		
+		//入队
+		queue.add(i);
+		while(!queue.isEmpty()){
+			int cur=queue.poll();
+			VNode curVNode=this.vNodes.get(cur);
+			ENode eNode=curVNode.first;
+			while(eNode!=null){
+				if (!isVisited[eNode.index]) {
+					//访问
+					System.out.println(this.vNodes.get(eNode.index).data);
+					//标记已访问
+					isVisited[eNode.index]=true;
+					
+					queue.add(eNode.index);
+				}
+				eNode=eNode.next;
+			}
+		}
+	}
 	
 }
 
