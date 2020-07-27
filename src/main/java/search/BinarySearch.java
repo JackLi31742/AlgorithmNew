@@ -84,4 +84,31 @@ public class BinarySearch {
 			return result;
 		}
 	}
+	
+	/**
+	 * 非递归二分查找
+	 * @param nums 升序数组
+	 * @param target
+	 * @return 找到返回下标，找不到返回-1
+	 */
+	public static int search3(int[] nums, int target) {
+		if (nums==null||nums.length<=0) {
+			return -1;
+		}
+		int left=0;
+		int right=nums.length-1;
+		while(left<=right){
+			int mid=(right-left)/2+left;
+			
+			if (nums[mid]==target) {
+				return mid;
+			}else if(nums[mid]<target){
+				//左右边界在移动，不是mid在移动
+				left=mid+1;
+			}else {
+				right=mid-1;
+			}
+		}
+		return -1;
+	}
 }
