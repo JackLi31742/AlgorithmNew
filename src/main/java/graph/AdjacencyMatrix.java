@@ -3,6 +3,9 @@ package graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
+
+import sun.tools.jar.resources.jar;
 
 public class AdjacencyMatrix {
 	
@@ -86,6 +89,48 @@ public class AdjacencyMatrix {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * 最小生成树
+	 */
+	public void prim(int v){
+		isVisited[v]=true;
+		
+		List<Integer> indexList=new ArrayList<>();
+		
+		indexList.add(v);
+		
+		while(indexList.size()<vertexs.size()){
+			
+			int maxValue=Integer.MAX_VALUE;
+			//h1 和 h2 记录两个顶点的下标
+			int h1 = -1;
+			int h2 = -1;
+			for (int i = 0; i < indexList.size(); i++) {
+				
+				for (int j = 0; j < vertexs.size(); j++) {
+					//应该用indexList的值，而不是用i，i是indexList的索引
+					int index=indexList.get(i);
+					//isVisited[index]&&!isVisited[j] 解决了回路问题
+					if (isVisited[index]&&!isVisited[j]&&edges[index][j]<maxValue) {
+						maxValue=edges[index][j];
+						h1 = indexList.get(i);
+						h2 = j;
+					}
+				}
+			}
+			
+			indexList.add(h2);
+			//找到一条边是最小
+			System.out.println("边<" + vertexs.get(h1) + "," + vertexs.get(h2) + "> 权值:" + edges[h1][h2]);
+			isVisited[h2]=true;
+		}
+		
+	}
+	
+	public void kruskal(){
+		
 	}
 	
 
