@@ -2,10 +2,10 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
-import sun.tools.jar.resources.jar;
 
 public class AdjacencyMatrix {
 	
@@ -130,8 +130,90 @@ public class AdjacencyMatrix {
 	}
 	
 	public void kruskal(){
+		//得到所有的边
+		ArrayList<EData> eDatas=getEData();
+		//按照权值排序
+		Comparator<EData> comparator=new Comparator<EData>() {
+
+			@Override
+			public int compare(EData o1, EData o2) {
+				// TODO Auto-generated method stub
+				return o1.weight-o2.weight;
+			}
+		};
 		
+		//排序
+		Collections.sort(eDatas, comparator);
+		
+		System.out.println(eDatas);
+		
+		//判断有没有回路，没有就加入最小生成树
+		
+		ArrayList<EData> result=new ArrayList<>();
+		
+		int[] ends=new int[vertexs.size()];
+		for (int i = 0; i < eDatas.size(); i++) {
+			EData eData=eDatas.get(i);
+			int start=eData.start;
+			int end=eData.end;
+			int e1=getEnd(ends, start);
+			int e2=getEnd(ends, end);
+			if (e1!=e2) {
+				result.add(eData);
+				ends[e1]=e2;
+			}
+		}
+		
+		System.out.println(result);
+		
+	}
+	//把edges数组转换成Edata
+	public ArrayList<EData> getEData(){
+		ArrayList<EData> eDatas=new ArrayList<>();
+		for (int i = 0; i < edges.length; i++) {
+			for (int j = i+1; j < edges[i].length; j++) {
+				if (edges[i][j]!=Integer.MAX_VALUE) {
+					
+					EData eData=new EData(i, j, edges[i][j]);
+					eDatas.add(eData);
+				}
+			}
+		}
+		
+		return eDatas;
+	}
+	
+	/**
+	 * 
+	 * @param ends 每个顶点的终点，下标是顶点的下标，值是终点
+	 * @param i 顶点的下标
+	 */
+	public int getEnd(int[] ends,int i){
+		//ends[i]=0的时候，就是找到了终点
+		while (ends[i]!=0) {
+			i=ends[i];
+		}
+		return i;
 	}
 	
 
+}
+
+//和邻接表里的边节点不同
+class EData{
+	int start;//起点
+	int end;//重点
+	int weight;//权值
+	
+	public EData(int start, int end, int weight) {
+		this.start = start;
+		this.end = end;
+		this.weight = weight;
+	}
+
+	@Override
+	public String toString() {
+		return "EData [start=" + start + ", end=" + end + ", weight=" + weight + "]";
+	}
+	
 }
