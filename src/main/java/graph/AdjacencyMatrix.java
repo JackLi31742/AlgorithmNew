@@ -196,13 +196,87 @@ public class AdjacencyMatrix {
 		return i;
 	}
 	
+	/**
+	 *  最短距离
+	 *  @param v 顶点的下标
+	 */
+	public void dijkstra(int v) {
+		ArrayList<VData> list=getVData();
+		VData startV=list.get(v);
+		startV.dis=0;
+		startV.visited=true;
+		
+		
+		Comparator<VData> comparator=new Comparator<VData>() {
+
+			@Override
+			public int compare(VData o1, VData o2) {
+				// TODO Auto-generated method stub
+				return o1.dis-o2.dis;
+			}
+		};
+		
+		
+		
+		updateDis(v, list);
+		ArrayList<VData> temp=new ArrayList<VData>(list.size());
+		for (int i = 1; i < vertexs.size(); i++) {
+			//不能破坏原来的list
+			temp.addAll(list);
+			Collections.sort(temp,comparator);
+			
+			VData vData=temp.get(i);
+			vData.visited=true;
+			updateDis(vData.id, list);
+			temp.clear();
+		}
+		
+		System.out.println(list);
+	}
+	
+	/**
+	 *   更新距离
+	 * @param v  从出发点经过v到其余各个点的距离
+	 * @param list
+	 */
+	public void updateDis(int v,ArrayList<VData> list) {
+		
+		VData vv=list.get(v);
+		for (int i = 0; i < edges[v].length; i++) {
+			VData vData=list.get(i);
+			if (!vData.visited) {
+				//vv.dis是出发点到v的距离
+				//edges[v][i]是v到i的距离
+				//不能用integer.max_value，否则相加就成了负数
+				int dis=vv.dis+edges[v][i];
+				//vData.dis是出发点到i的距离
+				if (dis<vData.dis) {
+					vData.dis=dis;
+					vData.parent=v;
+				}
+			}
+		}
+	}
+	
+	//将vertexs转换到VData
+	public ArrayList<VData> getVData() {
+		ArrayList<VData> list=new ArrayList<VData>();
+		
+		for (int i = 0; i < vertexs.size(); i++) {
+			VData vData=new VData(i);
+			list.add(vData);
+		}
+		
+		return list;
+	}
+	
 
 }
 
 //和邻接表里的边节点不同
 class EData{
 	int start;//起点
-	int end;//重点
+	int end;//终点
 	int weight;//权值
 	
 	public EData(int start, int end, int weight) {
@@ -215,5 +289,28 @@ class EData{
 	public String toString() {
 		return "EData [start=" + start + ", end=" + end + ", weight=" + weight + "]";
 	}
+	
+}
+
+//和邻接表里的顶点不同
+class VData{
+	int id;//该点的下标
+	boolean visited;//该点是否被访问过
+	int dis;//出发点到该点的距离
+	int parent;//该点的前驱节点
+	public VData(int id) {
+		super();
+		this.id = id;
+		this.parent=-1;
+		this.dis=10000;
+		this.visited=false;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "VData [id=" + id + ", visited=" + visited + ", dis=" + dis + ", parent=" + parent + "]";
+	}
+	
 	
 }
