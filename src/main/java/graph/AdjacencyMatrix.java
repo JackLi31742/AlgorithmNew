@@ -224,8 +224,9 @@ public class AdjacencyMatrix {
 			//不能破坏原来的list
 			temp.addAll(list);
 			Collections.sort(temp,comparator);
-			
+			//由于每次sort，每次都排序，每次取的都是后序最小的，每次取一个，所以取的每次都是i
 			VData vData=temp.get(i);
+			//置为true，就是把新的节点从未走到的状态加入到了已走到的状态，即从V集合到了S集合
 			vData.visited=true;
 			updateDis(vData.id, list);
 			temp.clear();
@@ -270,6 +271,39 @@ public class AdjacencyMatrix {
 		return list;
 	}
 	
+	/**
+	 * 多源到其余各个顶点的距离
+	 */
+	public void floyd() {
+		//距离
+		int[][]dis=edges;
+		//pre的行坐标是起点，纵坐标是终点，值是纵坐标的前驱
+		int[][]pre=new int[edges.length][edges.length];
+		for (int i = 0; i < pre.length; i++) {
+			Arrays.fill(pre[i], i);
+		}
+		//中间节点k
+		for (int k = 0; k < edges.length; k++) {
+			//起点i
+			for (int i = 0; i < edges.length; i++) {
+				//终点j
+				for (int j = 0; j < edges.length; j++) {
+					int distance=dis[i][k]+dis[k][j];
+					if (distance<dis[i][j]) {
+						dis[i][j]=distance;
+						pre[i][j]=pre[k][j];
+					}
+				}
+			}
+		}
+		
+		for (int i = 0; i < dis.length; i++) {
+			System.out.println(Arrays.toString(dis[i]));
+		}
+		for (int i = 0; i < dis.length; i++) {
+			System.out.println(Arrays.toString(pre[i]));
+		}
+	}
 
 }
 

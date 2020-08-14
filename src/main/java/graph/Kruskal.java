@@ -1,6 +1,4 @@
-package mst;
-
-import graph.AdjacencyMatrix;
+package graph;
 
 public class Kruskal {
 	
