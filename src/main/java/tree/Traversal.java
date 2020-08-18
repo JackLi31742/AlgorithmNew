@@ -1,7 +1,10 @@
 package tree;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 import com.sun.media.sound.RIFFInvalidDataException;
@@ -9,16 +12,19 @@ import com.sun.media.sound.RIFFInvalidDataException;
 public class Traversal {
 
 	public static void main(String[] args) {
-		TreeNode node1=new TreeNode(3);
-		TreeNode node2=new TreeNode(1);
-		TreeNode node3=new TreeNode(2);
-		TreeNode node4=new TreeNode(1);
+		TreeNode node1=new TreeNode(1);
+		TreeNode node2=new TreeNode(2);
+		TreeNode node3=new TreeNode(3);
+		TreeNode node4=new TreeNode(4);
+		TreeNode node5=new TreeNode(5);
 		
 		node1.left=node2;
 		node1.right=node3;
-//		node3.left=node4;
+		node2.left=node4;
+		node3.right=node5;
 		
-		System.out.println(postorderTraversal2(node1));;
+//		System.out.println(postorderTraversal2(node1));;
+		System.out.println(levelOrder(node1));
 		
 	}
 	/**
@@ -250,4 +256,43 @@ public class Traversal {
 		}
 		return result;
 	}
+	
+	/**
+	 * 102. 二叉树的层序遍历
+	 */
+	public static List<List<Integer>> levelOrder(TreeNode root) {
+		List<List<Integer>> result=new ArrayList<List<Integer>>();
+		if (root==null) {
+			return result;
+		}
+		Queue<TreeNode> queue=new ArrayDeque<TreeNode>();
+		queue.add(root);
+//		List<Integer> first=new ArrayList<Integer>();
+//		first.add(root.val);
+//		result.add(first);
+		while(!queue.isEmpty()) {
+			int size=queue.size();
+			List<Integer> list=new ArrayList<Integer>();
+			for (int i = 0; i < size; i++) {
+				TreeNode node=queue.poll();
+				list.add(node.val);
+//			System.out.print(node.val+" ");
+				if (node.left!=null) {
+//					list.add(node.left.val);
+					queue.add(node.left);
+				}
+				if (node.right!=null) {
+//					list.add(node.right.val);
+					queue.add(node.right);
+				}
+				
+			}
+//			if (list.size()>0) {
+				
+				result.add(list);
+//			}
+		}
+		
+		return result;
+    }
 }
