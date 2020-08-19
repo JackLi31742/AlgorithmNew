@@ -197,7 +197,7 @@ public class AdjacencyMatrix {
 	}
 	
 	/**
-	 *  最短距离
+	 *  最短路径
 	 *  @param v 顶点的下标
 	 */
 	public void dijkstra(int v) {
@@ -304,6 +304,12 @@ public class AdjacencyMatrix {
 			System.out.println(Arrays.toString(pre[i]));
 		}
 	}
+	
+	
+	/*
+	 * 最短距离，也可以用dp
+	 */
+	
 
 }
 
