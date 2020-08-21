@@ -1,17 +1,27 @@
 package search;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 public class BinarySearch {
 	
 	public static void main(String[] args) {
-		int[]arr={1,8, 10, 89, 1000, 1000,1234};
+//		int[]arr={1,8, 10, 89, 1000, 1000,1234};
+//		
+//		System.out.println(search2(arr,1000));;
+//		
+//		int[]arr1={ -1, 3, 3, 7, 10, 14, 14 };
+//		
+//		System.out.println(findFirstBeyondNum(arr1, 9));
+//		
+//		int[]arr2= {1,2,3};
+//		
+//		System.out.println(Arrays.toString(searchRange(arr2, 1)));
 		
-		System.out.println(search2(arr,1000));;
 		
-		int[]arr1={ -1, 3, 3, 7, 10, 14, 14 };
+		int[] arr3= {1,3};
 		
-		System.out.println(findFirstBeyondNum(arr1, 9));
+		System.out.println(search4(arr3, 3));
 	}
 
 	
@@ -171,5 +181,131 @@ public class BinarySearch {
 		 }
 		 
 		 return left;
+	 }
+	 
+	 /**
+	  * 34. 在排序数组中查找元素的第一个和最后一个位置
+	  * 给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。
+
+			你的算法时间复杂度必须是 O(log n) 级别。
+
+			如果数组中不存在目标值，返回 [-1, -1]。
+
+	  * @param nums
+	  * @param target
+	  * @return
+	  */
+	 public static int[] searchRange(int[] nums, int target) {
+		 int left=0;
+		 int right=nums.length-1;
+		 int[] result= {-1,-1};
+		 while(left<=right) {
+			 int mid=(right-left)/2+left;
+			 if (nums[mid]>target) {
+				right=mid-1;
+				
+			}else if (nums[mid]<target) {
+				left=mid+1;
+			}else {
+				int tempLeft=mid;
+				while(tempLeft>=0&&nums[tempLeft]==target) {
+					tempLeft--;
+				}
+				if (tempLeft>=0&&nums[tempLeft]==target) {
+					
+					result[0]=tempLeft;
+				}else {
+					result[0]=tempLeft+1;
+				}
+				
+				int tempRight=mid;
+				while(tempRight<nums.length&&nums[tempRight]==target) {
+					tempRight++;
+				}
+				
+				if (tempRight<nums.length&&nums[tempRight]==target) {
+					result[1]=tempRight;
+					
+				}else {
+					result[1]=tempRight-1;
+				}
+				//这里要return，或者break
+				return result;
+			}
+		 }
+		 
+		 return result;
+	 }
+	 
+	 
+	 /**
+	  * 33. 搜索旋转排序数组
+	  * 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
+
+( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
+
+搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+
+你可以假设数组中不存在重复的元素。
+	  */
+	 
+	 public static int search4(int[] nums, int target) {
+		 int left=0;
+		 int right=nums.length-1;
+		 return search4(nums, target, left, right);
+		 
+	 }
+	 
+	 public static int search4(int[] nums, int target,int left,int right) {
+		 
+		 if (left<=right) {
+			
+			 if (nums[left]==target) {
+				return left;
+			 }
+			 if (nums[right]==target) {
+				return right;
+			}
+			 int mid=(right-left)/2+left;
+			 if (nums[mid]==target) {
+				 return mid;
+			 }
+			 //左侧有序
+			 if (nums[left]<=nums[mid]) {
+				 //target在左侧
+				 if (nums[left]<=target&&target<=nums[mid]) {
+					 return search4(nums, target, left, mid-1);
+				 }else {//target在右侧
+					 return search4(nums, target, mid+1, right);
+				 }
+			 }else {//右侧有序
+				 //target在右侧
+				 if (nums[mid]<=target&&target<=nums[right]) {
+					 return search4(nums, target, mid+1, right);
+				 }else {//target在左侧
+					 return search4(nums, target, left, mid-1);
+				 }
+			 }
+		}else {
+//			if (nums[left]==target) {
+//				return left;
+//			}
+			return -1;
+		}
+		 
+	 }
+	 
+	 /**
+	  * 面试题 10.03. 搜索旋转数组
+	  * 搜索旋转数组。给定一个排序后的数组，包含n个整数，
+	  * 但这个数组已被旋转过很多次了，次数不详。
+	  * 请编写代码找出数组中的某个元素，假设数组元素原先是按升序排列的。
+	  * 若有多个相同元素，返回索引值最小的一个。
+	  * @param arr
+	  * @param target
+	  * @return
+	  */
+	 public int search5(int[] arr, int target) {
+
 	 }
 }

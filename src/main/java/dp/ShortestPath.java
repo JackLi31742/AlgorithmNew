@@ -22,7 +22,10 @@ public class ShortestPath {
 
 		        minPath(m);
 	}
-	
+	/***
+	 * 图的最短路径
+	 * @param m
+	 */
 	public static void minPath(int[][] m) {
 		
 	}
