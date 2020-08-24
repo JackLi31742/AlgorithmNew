@@ -4,6 +4,17 @@ public class Kth {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		ListNode node1=new ListNode(1);
+		ListNode node2=new ListNode(2);
+		ListNode node3=new ListNode(3);
+		ListNode node4=new ListNode(4);
+		ListNode node5=new ListNode(5);
+		
+		node1.next=node2;
+//		node2.next=node3;
+//		node3.next=node4;
+//		node4.next=node5;
+		System.out.println(removeNthFromEnd(node1, 2));;
 
 	}
 
@@ -43,6 +54,40 @@ public class Kth {
 		
 		return second.val;
 	}
+	
+	/**
+	 * 19. 删除链表的倒数第N个节点
+	 * 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+	 */
+	public static ListNode removeNthFromEnd(ListNode head, int n) {
+		if (head==null||n<=0) {
+			return head;
+		}
+		ListNode first=head;
+		ListNode second=head;
+		int count=0;
+		while(first!=null) {
+			first=first.next;
+			count++;
+			if (count==n) {
+				break;
+			}
+		}
+		//当first为空的时候，说明要删除的是第一个节点，直接返回head.next即可
+		if (first==null) {
+			return head.next;
+		}
+		while(first!=null&&first.next!=null) {
+			first=first.next;
+			second=second.next;
+		}
+		if (second.next!=null) {
+			
+			second.next=second.next.next;
+		}
+		return head;
+		
+    }
 }
 
 

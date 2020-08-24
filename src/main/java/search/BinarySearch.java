@@ -19,9 +19,9 @@ public class BinarySearch {
 //		System.out.println(Arrays.toString(searchRange(arr2, 1)));
 		
 		
-		int[] arr3= {1,3};
+		int[] arr3= {12, 20, -21, -21, -19, -14, -11, -8, -8, -8, -6, -6, -4, -4, 0, 1, 5, 5, 6, 11, 11, 12};
 		
-		System.out.println(search4(arr3, 3));
+		System.out.println(search5(arr3, -8));
 	}
 
 	
@@ -242,11 +242,11 @@ public class BinarySearch {
 	  * 33. 搜索旋转排序数组
 	  * 假设按照升序排序的数组在预先未知的某个点上进行了旋转。
 
-( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
-
-搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
-
-你可以假设数组中不存在重复的元素。
+		( 例如，数组 [0,1,2,4,5,6,7] 可能变为 [4,5,6,7,0,1,2] )。
+		
+		搜索一个给定的目标值，如果数组中存在这个目标值，则返回它的索引，否则返回 -1 。
+		
+		你可以假设数组中不存在重复的元素。
 	  */
 	 
 	 public static int search4(int[] nums, int target) {
@@ -296,7 +296,57 @@ public class BinarySearch {
 	 }
 	 
 	 /**
-	  * 面试题 10.03. 搜索旋转数组
+	  * 33. 搜索旋转排序数组
+	  * 非递归
+	  * @param nums
+	  * @param target
+	  * @param left
+	  * @param right
+	  * @return
+	  */
+	 public static int search42(int[] nums, int target,int left,int right) {
+		 
+		 while (left<=right) {
+			
+			 if (nums[left]==target) {
+				return left;
+			 }
+			 if (nums[right]==target) {
+				return right;
+			}
+			 int mid=(right-left)/2+left;
+			 if (nums[mid]==target) {
+				 return mid;
+			 }
+			 //左侧有序
+			 if (nums[left]<=nums[mid]) {
+				 //target在左侧
+				 if (nums[left]<=target&&target<=nums[mid]) {
+					 right=mid-1;
+				 }else {//target在右侧
+					 left=mid+1;
+				 }
+			 }else {//右侧有序
+				 //target在右侧
+				 if (nums[mid]<=target&&target<=nums[right]) {
+					 left=mid+1;
+				 }else {//target在左侧
+					 right=mid-1;
+				 }
+			 }
+		}
+		 
+//		 else {
+//			if (nums[left]==target) {
+//				return left;
+//			}
+			return -1;
+//		}
+		 
+	 }
+	 
+	 /**
+	  * 面试题 10.03. 搜索旋转数组 33是特例，只旋转了一次
 	  * 搜索旋转数组。给定一个排序后的数组，包含n个整数，
 	  * 但这个数组已被旋转过很多次了，次数不详。
 	  * 请编写代码找出数组中的某个元素，假设数组元素原先是按升序排列的。
@@ -305,7 +355,74 @@ public class BinarySearch {
 	  * @param target
 	  * @return
 	  */
-	 public int search5(int[] arr, int target) {
+	 public static int search5(int[] arr, int target) {
 
+		 int left=0;
+		 int right=arr.length-1;
+		 return search5(arr, target, left, right);
 	 }
+	 
+	 public static int search5(int[] nums, int target,int left,int right) {
+		 
+		 while (left<=right) {
+			
+			 //为了找到索引最小的，一直让left去匹配
+			 if (nums[left]==target) {
+				return left;
+			 }
+//			 if (nums[right]==target) {
+//				return right;
+//			}
+			 int mid=(right-left)/2+left;
+//			 if (nums[mid]==target) {
+//				 return mid;
+//			 }
+//			 System.out.println(left+":"+nums[left]+","+mid+":"+nums[mid]+","+right+":"+nums[right]);
+			 //左侧有序
+			 if (nums[left]<nums[mid]) {
+				 
+				//target在左侧
+				 if (nums[left]<=target&&target<=nums[mid]) {
+					 //为了搞定重复的，不能用+1或者-1
+					 right=mid;
+				 }else {//target在右侧
+					 left=mid;
+				 }
+			 }else if(nums[left]>nums[mid]){//右侧有序
+
+				 if (nums[mid]<=target&&target<=nums[right]) {
+					 left=mid;
+				 }else {//target在左侧
+					 right=mid;
+				 }
+			 }else {
+				left++;
+			}
+		}
+		 
+
+		return -1;
+
+		 
+	 }
+	 
+	 /**
+	  * 4. 寻找两个正序数组的中位数
+	  * 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。
+
+		请你找出这两个正序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+		
+		你可以假设 nums1 和 nums2 不会同时为空。
+
+	  * @param nums1
+	  * @param nums2
+	  * @return
+	  */
+	 public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+		 if (nums1==null) {
+			
+		}
+	 }
+	 
+	
 }

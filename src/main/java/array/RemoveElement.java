@@ -72,12 +72,37 @@ public class RemoveElement {
     }
 	
 	/**
+	 * 26. 删除排序数组中的重复项
+	 * 因为数组有序，因此只需要去对比 nums[i] 和当前去重数组的最大值是否相等即可。我们用一个 temp 变量保存去重数组的最大值。
+
+		如果二者不等，则说明是一个新的数据。我们就需要把这个新数据放到去重数组的最后，
+		并且修改 temp 变量的值，再修改当前去重数组的长度变量 len。直到遍历完，就得到了结果。
+	 * @param nums
+	 * @return
+	 */
+	public static int removeDuplicates2(int[] nums) {
+		if (nums==null||nums.length==0) {
+			return 0;
+		}
+		int temp=nums[0];
+		int len=0;
+		for (int i = 1; i < nums.length; i++) {
+			if (nums[i]!=temp) {
+				temp=nums[i];
+				len++;
+				nums[len]=nums[i];
+				
+			}
+		}
+		return len+1;
+	}
+	/**
 	 * 80. 删除排序数组中的重复项 II
 	 * 给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素最多出现两次，返回移除后数组的新长度。
 	 * @param nums
 	 * @return
 	 */
-	public static int removeDuplicates2(int[] nums) {
+	public static int removeDuplicates80(int[] nums) {
 		int i = 0,j=i+2;
 		while(i<nums.length&&j<nums.length) {
 			while (j<nums.length&&nums[i]==nums[j]) {

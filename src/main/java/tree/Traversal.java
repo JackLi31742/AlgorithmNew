@@ -8,6 +8,7 @@ import java.util.Queue;
 import java.util.Stack;
 
 import com.sun.media.sound.RIFFInvalidDataException;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 
 public class Traversal {
 
@@ -24,7 +25,7 @@ public class Traversal {
 		node3.right=node5;
 		
 //		System.out.println(postorderTraversal2(node1));;
-		System.out.println(levelOrder(node1));
+		System.out.println(zigzagLevelOrder(node1));
 		
 	}
 	/**
@@ -259,6 +260,18 @@ public class Traversal {
 	
 	/**
 	 * 102. 二叉树的层序遍历
+	 * 
+	 *  3
+	   / \
+	  9  20
+	    /  \
+	   15   7
+	   
+	   [
+		  [3],
+		  [9,20],
+		  [15,7]
+		]
 	 */
 	public static List<List<Integer>> levelOrder(TreeNode root) {
 		List<List<Integer>> result=new ArrayList<List<Integer>>();
@@ -273,6 +286,7 @@ public class Traversal {
 		while(!queue.isEmpty()) {
 			int size=queue.size();
 			List<Integer> list=new ArrayList<Integer>();
+			//由于一层的要打印到一个list里，所以加了for循环
 			for (int i = 0; i < size; i++) {
 				TreeNode node=queue.poll();
 				list.add(node.val);
@@ -295,4 +309,94 @@ public class Traversal {
 		
 		return result;
     }
+	
+	/**
+	 * 103. 二叉树的锯齿形层次遍历
+	 * 给定一个二叉树，返回其节点值的锯齿形层次遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）
+	 * @param root
+	 * @return
+	 */
+	public static List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		if (root == null) {
+			return result;
+		}
+		Queue<TreeNode> queue = new ArrayDeque<TreeNode>();
+		queue.add(root);
+		int height=1;
+		while(!queue.isEmpty()) {
+			int size=queue.size();
+			List<Integer> list=new ArrayList<Integer>();
+			Stack<Integer> stack=new Stack<Integer>();
+			for (int i = 0; i < size; i++) {
+				TreeNode node=queue.poll();
+				if (height%2==1) {
+					//如果本行是奇数
+					list.add(node.val);
+				}else {
+					//如果本行是偶数，就先放到栈里，然后再遍历到list中
+					stack.add(node.val);
+				}
+				
+				if (node.left!=null) {
+					queue.add(node.left);
+				}
+				if (node.right!=null) {
+					queue.add(node.right);
+				}
+				
+			}
+			if (height%2==0) {
+				
+				for (int i = 0; i < size; i++) {
+					list.add(stack.pop());
+				}
+			}
+			
+			height++;
+			result.add(list);
+		}
+		
+		return result;
+
+	}
+	
+	public static List<List<Integer>> zigzagLevelOrder2(TreeNode root) {
+		List<List<Integer>> result = new ArrayList<List<Integer>>();
+		if (root == null) {
+			return result;
+		}
+		Queue<TreeNode> queue = new ArrayDeque<TreeNode>();
+		queue.add(root);
+		int height=1;
+		while(!queue.isEmpty()) {
+			int size=queue.size();
+			LinkedList<Integer> list=new LinkedList<Integer>();
+			
+			for (int i = 0; i < size; i++) {
+				TreeNode node=queue.poll();
+				if (height%2==1) {
+					//如果本行是奇数
+					list.add(node.val);
+				}else {
+					//如果本行是偶数，就采用头插法
+					list.addFirst(node.val);
+				}
+				
+				if (node.left!=null) {
+					queue.add(node.left);
+				}
+				if (node.right!=null) {
+					queue.add(node.right);
+				}
+				
+			}
+			
+			height++;
+			result.add(list);
+		}
+		
+		return result;
+
+	}
 }
