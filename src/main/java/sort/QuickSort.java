@@ -24,7 +24,7 @@ public class QuickSort {
 		if (nums==null||nums.length==0||nums.length==1) {
 			return nums;
 		}
-		return sort4(nums,0,nums.length-1);
+		return sort2(nums,0,nums.length-1);
 		
 	}
 	
@@ -145,8 +145,8 @@ public class QuickSort {
 		//当退出while循环时，left=right=pivot所在的位置
 //		System.out.println("left:"+left+":"+arr[left]+",right:"+right+":"+arr[right]+",pivot:"+pivot);
 		//递归的时候，左侧递归，要传入start，右侧传入end
-		sort(arr,start,partiton-1);
-		sort(arr,partiton+1,end);
+		sort2(arr,start,partiton-1);
+		sort2(arr,partiton+1,end);
 		return arr;
 	}
 	

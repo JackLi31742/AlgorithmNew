@@ -9,6 +9,9 @@ import java.util.List;
 
 public class AdjacencyMatrix {
 	
+	//用来计数，看走了多少次
+	int count=0;
+	
 	private ArrayList<String> vertexs;
 	
 	private int[][] edges;
@@ -246,6 +249,7 @@ public class AdjacencyMatrix {
 		for (int i = 0; i < edges[v].length; i++) {
 			VData vData=list.get(i);
 			if (!vData.visited) {
+				count++;
 				//vv.dis是出发点到v的距离
 				//edges[v][i]是v到i的距离
 				//不能用integer.max_value，否则相加就成了负数
