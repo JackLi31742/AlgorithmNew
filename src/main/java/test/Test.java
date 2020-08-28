@@ -45,6 +45,7 @@ public class Test {
 		list.add(2);
 		list.add(0);
 		
+		
 		Collections.sort(list);
 		
 		System.out.println(list);

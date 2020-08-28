@@ -1,5 +1,7 @@
 package list;
 
+import java.util.Stack;
+
 public class Reverse2 {
 
 	public static void main(String[] args) {
@@ -19,7 +21,9 @@ public class Reverse2 {
 //		System.out.println(reverse(node1));
 //		System.out.println(reverseBetween(node1, 1, 2));
 		
-		System.out.println(reverseKGroup(node1, 3));
+		System.out.println(reverseKGroup2(node1, 3));
+		
+		
 	}
 	/**
 	 * 92. 反转链表 II
@@ -143,5 +147,48 @@ public class Reverse2 {
 		//出循环后，head变为了尾节点，但不是最后的null节点
 //		System.out.println(head);
 		return pre;
+	}
+	
+	/**
+	 *  栈
+	 * @param head
+	 * @param k
+	 * @return
+	 */
+	public static ListNode reverseKGroup2(ListNode head, int k) {
+		if (head==null||head.next==null) {
+			return head;
+		}
+		
+		Stack<ListNode> stack=new Stack<>();
+		
+		ListNode cur=head;
+		ListNode newHead=new ListNode(0);
+		ListNode temp=newHead;
+		int count=1;
+		while(cur!=null) {
+			if (count<=k) {
+				
+				stack.push(cur);
+				cur=cur.next;
+				count++;
+			}
+			//这里如果用else 当count>k，
+			//cur如果为null的时候，就不走下边的代码，直接退出循环了
+			if (count>k) {
+				
+				while(!stack.isEmpty()) {
+					temp.next=stack.pop();
+					temp=temp.next;
+				}
+				temp.next=cur;
+				count=1;
+			}
+		
+				
+		}
+		
+		
+		return newHead.next;
 	}
 }
