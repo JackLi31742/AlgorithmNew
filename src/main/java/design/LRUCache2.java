@@ -17,12 +17,11 @@ import com.sun.glass.ui.Size;
 	https://www.cnblogs.com/xiaoxi/p/6170590.html
 
  */
-public class LRUCache extends LinkedHashMap<Integer, Integer>{
+public class LRUCache2 {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2629115163020729850L;
 	public static void main(String[] args) {
 //		LinkedHashMap<Integer, Integer> linkedHashMap=new LinkedHashMap<Integer, Integer>(3,0.75f,true);
 //		linkedHashMap.put(1, 1);
@@ -42,45 +41,34 @@ public class LRUCache extends LinkedHashMap<Integer, Integer>{
 //			System.out.println(entry.getKey()+":"+entry.getValue());
 //		}
 		
-		LRUCache cache=new LRUCache(2);
-		
-		cache.put(1, 1);
-		cache.put(2, 2);
-		cache.put(3, 3);
-		
-		cache.forEach((k,v)->System.out.println(k));
-		
-		System.out.println();
-		
-		cache.get(2);
-		
-		cache.forEach((k,v)->System.out.println(k));
-		
 	}
 	
+	LinkedHashMap<Integer, Integer> linkedHashMap;
 	int capacity;
-	public LRUCache(int capacity) {
-		//调用linkedhashmap，开启按照访问顺序进行存储
-		super(capacity,0.75f,true);
+	public LRUCache2(int capacity) {
+		linkedHashMap=new LinkedHashMap<Integer, Integer>(capacity,0.75f,true);
 		this.capacity=capacity;
     }
     
     public int get(int key) {
-    	if (!containsKey(key)) {
+    	if (!linkedHashMap.containsKey(key)) {
 			return -1;
 		}
-    	//get会将节点移到双链表的尾部
-    	Integer result=super.get(key);
+    	Integer result=linkedHashMap.get(key);
     	return result;
     }
-    //此方法是淘汰策略的核心
-    public boolean removeEldestEntry(Map.Entry<Integer,Integer> eldest) {
-        return size()>this.capacity;
-    }
+    //此方法是淘汰策略的核心，但是由于不是继承，这里将不会自动调用
+//    public boolean removeEldestEntry(Map.Entry<Integer,Integer> eldest) {
+//        return linkedHashMap.size()>this.capacity;
+//    }
     
     public void put(int key, int value) {
-    	//removeEldestEntry会在put时调用
-    	super.put(key, value);
+    	
+    	linkedHashMap.put(key, value);
+    	if (linkedHashMap.size()>capacity) {
+    		linkedHashMap.remove(linkedHashMap.entrySet().iterator().next().getKey());
+			
+		}
     }
     
     
