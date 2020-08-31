@@ -1,7 +1,6 @@
 package list;
 /**
  * leetcod 206
- * @author LANG
  *
  */
 

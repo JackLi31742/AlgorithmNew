@@ -3,8 +3,6 @@ package design;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.sun.glass.ui.Size;
-
 /**
  * 146. LRU缓存机制
  * 

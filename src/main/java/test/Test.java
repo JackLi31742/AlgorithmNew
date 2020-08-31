@@ -3,6 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import design.MyHashSet;
 
@@ -49,6 +50,13 @@ public class Test {
 		Collections.sort(list);
 		
 		System.out.println(list);
+		
+		HashMap<Integer, Integer> map=new HashMap<Integer, Integer>();
+		map.put(1, 1);
+		System.out.println(map);
+		map.put(1, 2);
+		System.out.println(map);
+		
 		
 	}
 }
