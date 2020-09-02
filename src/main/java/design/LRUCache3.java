@@ -57,6 +57,7 @@ public class LRUCache3 {
 			return -1;
 		}
     	Node result=map.get(key);
+    	//也可以删除后再次加入新节点
     	if (isUpdate) {
 			result.value=value;
 		}
@@ -71,7 +72,14 @@ public class LRUCache3 {
     	return result.value;
     }
 
-    
+    /**
+     * 添加数据到缓存稍微有点麻烦，我们需要先看这个数据是否已经在缓存中。
+     * 如果已经在其中，需要将其移动到双向链表的尾部；
+     * 如果不在其中，还要看缓存有没有满。
+     * 如果满了，则将双向链表头部的结点删除，然后再将数据放到链表的尾部；如果没有满，就直接将数据放到链表的尾部
+     * @param key
+     * @param value
+     */
     public void put(int key, int value) {
     	//如果key存在，需要更新值，同时，也要相当于get操作，要重新改节点的位置
     	if (map.containsKey(key)) {

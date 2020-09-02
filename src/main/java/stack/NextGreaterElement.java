@@ -12,6 +12,12 @@ public class NextGreaterElement {
 		int[]result=nextGreaterElements2(nums);
 		
 		System.out.println(Arrays.toString(result));
+		
+		
+		System.out.println(nextGreaterElement(12443322));;
+		
+		
+		System.out.println(Integer.MAX_VALUE);
 	}
 	
 	/**
@@ -171,10 +177,51 @@ public class NextGreaterElement {
 	 * 556. 下一个更大元素 III
 	 * 给定一个32位正整数 n，你需要找到最小的32位整数，
 	 * 其与 n 中存在的位数完全相同，并且其值大于n。如果不存在这样的32位整数，则返回-1。
+	 * 
+	 * 感觉是重新排序n的位，找到第一个比n大的值
+	 * 
+	 * 从后先前，找到第一个比相邻右侧小的值a[i]，
+	 * 然后再向右寻找第一个比这个值大的值a[j]，交换，然后再把i右侧的按照从小到大排序
 	 * @param n
 	 * @return
 	 */
-	public int nextGreaterElement(int n) {
-
+	public static int nextGreaterElement(int n) {
+		char[]arr=String.valueOf(n).toCharArray();
+		int index=0;
+		for (int i = arr.length-1; i >=1; i--) {
+			if (arr[i-1]<arr[i]) {
+				index=i-1;
+				break;
+			}
+		}
+		int j=0;
+//		找到第一个比arr[index]大的值，从后向前找更好，因为从前向后找，找到后，还得继续找，看有没有第一个比它大 的
+		for (int i = arr.length-1; i>=index+1; i--) {
+			if (arr[i]>arr[index]) {
+				j=i;
+				break;
+			}
+		}
+		
+		if (index>=j) {
+			return -1;
+		}
+		swip(arr, index, j);
+		
+		//包含头，不包含尾
+		Arrays.sort(arr, index+1, arr.length);
+		try {
+			//修改后可能超过了Integer.MAX_VALUE
+			return Integer.parseInt(String.valueOf(arr));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return -1;
+		}
     }
+	
+	public static void swip(char[]arr,int i,int j) {
+		char temp=arr[i];
+		arr[i]=arr[j];
+		arr[j]=temp;
+	}
 }

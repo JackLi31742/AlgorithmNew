@@ -10,7 +10,7 @@ public class BinarySearch {
 //		
 //		System.out.println(search2(arr,1000));;
 //		
-//		int[]arr1={ -1, 3, 3, 7, 10, 14, 14 };
+		int[]arr1={ -1, 3, 3, 7, 10, 14, 14 };
 //		
 //		System.out.println(findFirstBeyondNum(arr1, 9));
 //		
@@ -19,13 +19,16 @@ public class BinarySearch {
 //		System.out.println(Arrays.toString(searchRange(arr2, 1)));
 		
 		
-//		int[] arr3= {12, 20, -21, -21, -19, -14, -11, -8, -8, -8, -6, -6, -4, -4, 0, 1, 5, 5, 6, 11, 11, 12};
+		int[] arr3= {12, 20, -21, -21, -19, -14, -11, -8, -8, -8, -6, -6, -4, -4, 0, 1, 5, 5, 6, 11, 11, 12};
 		
-//		System.out.println(search5(arr3, -8));
+		System.out.println(find(arr1, 15));
 		
-		int[]nums2= {1,2};
-		int[]nums1= {3,4};
-		System.out.println(findMedianSortedArrays4(nums1,nums2));;
+//		int[]nums2= {1,2};
+//		int[]nums1= {3,4};
+//		System.out.println(findMedianSortedArrays4(nums1,nums2));;
+		
+//		System.out.println(mySqrt2(8));;
+//		System.out.println(Math.sqrt(8));
 	}
 
 	
@@ -115,6 +118,7 @@ public class BinarySearch {
 		}
 		int left=0;
 		int right=nums.length-1;
+		//循环退出条件有=
 		while(left<=right){
 			int mid=(right-left)/2+left;
 			
@@ -160,6 +164,69 @@ public class BinarySearch {
 		
 				
 	}
+	
+	/**
+	 * 变体三：查找第一个大于等于给定值的元素
+	 * 
+	 * 数组中存储的这样一个序列：3，4，6，7，10。如果查找第一个大于等于 5 的元素，那就是 6。
+	 */
+	
+	public static int find(int[]arr,int target) {
+		
+		int left=0;
+		int right=arr.length-1;
+		while(left<=right) {
+			int mid=left+(right-left)/2;
+			
+			if (arr[mid]>=target) {
+				//和变体1类似
+				if (mid==0||arr[mid-1]<target) {//不用循环了
+					return mid;
+				}else {
+					right=mid-1;
+				}
+				
+			}else {
+				left=mid+1;
+			}
+		}
+		
+		return -1;
+	}
+	
+	/**
+	 * 二分查找的变种
+	 * 变体一：查找第一个值等于给定值的元素
+	 * 有序数据集合中存在重复的数据，我们希望找到第一个值等于给定值的数据，
+	 * @return
+	 */
+	public static int searchFirst(int[] arr,int target) {
+		
+		int left=0;
+		int right=arr.length-1;
+		while(left<=right) {
+			int mid=left+(right-left)/2;
+			if (arr[mid]>target) {
+				right=mid-1;
+			}else if (arr[mid]<target) {
+				left=mid+1;
+			}else {//这里就不用循环去找了
+				//要找第一个等于给定值的元素，那么如果mid是0，左边再没有元素了，肯定就是要找的
+				//或者mid-1的值小于target说明也是第一个
+				if (mid==0||arr[mid-1]<target) {
+					return mid;
+				}else {//说明在left和mid之间
+					right=mid-1;
+				}
+			}
+		}
+		
+		return -1;
+		
+	}
+	
+	
+	
 	
 	/**
 	 * 35. 搜索插入位置
@@ -662,4 +729,79 @@ public class BinarySearch {
 			return nums[nums.length/2];
 		}
 	}
+	
+	/**
+	 * 69. x 的平方根
+
+	 * 实现 int sqrt(int x) 函数。
+
+		计算并返回 x 的平方根，其中 x 是非负整数。
+		
+		由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
+
+	 * @param x
+	 * @return
+	 */
+	public static int mySqrt(int x) {
+		int left=0;
+		int right=x;
+		int mid=0;
+		while(left<=right) {
+			mid=(right-left)/2+left;
+			if (mid==0) {
+				if (x==0) {
+					return mid;
+				}else {
+					left=mid+1;
+				}
+			}else {
+				
+				if (mid<x/mid) {
+					left=mid+1;
+				}else if (mid>x/mid) {
+					right=mid-1;
+				}else {
+					return mid;
+				}
+			}
+		}
+//		System.out.println(left+","+mid+","+right);
+		return right;
+    }
+	
+	/**
+	 * 保留6位小数
+	 * @param x
+	 * @return
+	 */
+	
+	public static double mySqrt2(int x) {
+		double left=0;
+		double right=x;
+		double mid=0;
+		//介值定理，所以每次mid不能加1，减一，得加减range
+		double range=0.000001;
+		while(left<=right) {
+			mid=(right-left)/2.0+left;
+			if (mid==0) {
+				if (x==0) {
+					return mid;
+				}else {
+					left=mid+range;
+				}
+			}else {
+				
+				if (mid<x/mid) {
+					left=mid+range;
+				}else if (mid>x/mid) {
+					right=mid-range;
+				}else {
+					return mid;
+				}
+			}
+		}
+//		System.out.println(left+","+mid+","+right);
+		
+		return (double)Math.round(right*1000000)/1000000;
+    }
 }

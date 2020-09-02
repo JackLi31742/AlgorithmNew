@@ -7,13 +7,13 @@ import java.util.PriorityQueue;
 public class Kth {
 	
 	public static void main(String[] args) {
-		PriorityQueue<Integer> heap =new PriorityQueue<Integer>(2);
-		
-		heap.add(1);
-		heap.add(2);
-		heap.add(3);
-		
-		System.out.println(heap);
+//		PriorityQueue<Integer> heap =new PriorityQueue<Integer>(2);
+//		
+//		heap.add(1);
+//		heap.add(2);
+//		heap.add(3);
+//		
+//		System.out.println(heap);
 		
 		
 		int[]arr= {1,3,5,7,2,4,6,8};
@@ -97,7 +97,7 @@ public class Kth {
 	
 	
 	/**
-	 * 快排思想，但是不能用partition去卡，还是得用排序
+	 * 快排思想
 	 * @param arr
 	 * @param k
 	 * @return
@@ -111,26 +111,39 @@ public class Kth {
 			return arr;
 		}
 		
-		int[]result=new int[k];
 		int left=0;
 		int right=arr.length-1;
-		int partition=partition(arr, left, right);
 		
-		while(partition!=k) {
-			
-			if (partition<k) {
-				partition(arr,partition+1,right);
-			}else if (partition>k) {
-				partition(arr,left,partition-1);
-			}
+		return smallestK3(arr, k, left, right);
+		
+		
+		
+	}
+	
+	public static int[] smallestK3(int[] arr, int k,int left,int right) {
+		if (left>=right) {
+			return arr;
 		}
+		int partition=partition(arr, left, right);
+		//当递归调用时，是不需要，也不可以用while循环
+//		while((partition+1)!=k) {
+			
+//			partition是下标，所以需要加1
+			if ((partition+1)<k) {
+				smallestK3(arr, k, partition+1, right);
+			}else if ((partition+1)>k) {
+				
+				smallestK3(arr, k,left,partition-1);
+			}
+//		}
+		
+		int[]result=new int[k];
 		for (int i = 0; i < result.length; i++) {
 			result[i]=arr[i];
 		}
 		
 		
 		return result;
-		
 	}
 	
 	public static int partition(int[] arr, int left,int right) {

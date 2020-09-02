@@ -56,6 +56,8 @@ public class MergeSort {
 		//这里会重置temp数组
 		//i到了mid，不是left
 		while(i<=mid&&j<=right){
+			//如果 A[p…q]和 A[q+1…r]之间有值相同的元素，
+//			那我们可以像伪代码中那样，先把 A[p…q]中的元素放入 tmp 数组
 			if (arr[i]<=arr[j]) {
 				
 				temp[t1]=arr[i];
