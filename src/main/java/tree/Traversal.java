@@ -399,4 +399,49 @@ public class Traversal {
 		return result;
 
 	}
+	
+	/**
+	 * 104. 二叉树的最大深度
+	 * 给定一个二叉树，找出其最大深度。
+	 * @param root
+	 * @return
+	 */
+	public int maxDepth(TreeNode root) {
+		if (root==null) {
+			return 0;
+		}
+		return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
+    }
+	/**
+	 * 非递归，用层次遍历
+	 * @param root
+	 * @return
+	 */
+	public int maxDepth2(TreeNode root) {
+		if (root==null) {
+			return 0;
+		}
+
+		int depth=0;
+		Queue<TreeNode> queue=new ArrayDeque<TreeNode>();
+		
+		queue.add(root);
+		while(!queue.isEmpty()) {
+			int size=queue.size();
+			for (int i = 0; i < size; i++) {
+				TreeNode cur=queue.poll();
+				
+				if (cur.left!=null) {
+					queue.add(cur.left);
+					
+				}
+				if (cur.right!=null) {
+					queue.add(cur.right);
+				}
+			}
+			depth++;
+		}
+		
+		return depth;
+    }
 }

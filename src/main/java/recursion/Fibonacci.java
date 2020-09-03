@@ -1,5 +1,7 @@
 package recursion;
 
+import javafx.geometry.HorizontalDirection;
+
 public class Fibonacci {
 
 	public static void main(String[] args) {
@@ -111,4 +113,23 @@ public class Fibonacci {
 		
 		return Long.valueOf(third).intValue();
     }
+	
+	/**
+	 * 1 个细胞的生命周期是 3 小时，1 小时分裂一次。求 n 小时后，容器内有多少细胞？
+	 * 假设细胞到了第三个小时是先分裂完再死亡
+	 */
+	public int num(int hour) {
+		if (hour==0) {
+			return 1;
+		}
+		if (hour==1) {
+			return 2;
+		}
+		if (hour==2) {
+			return 4;
+		}
+//		if (hour>=3) {
+			return 2*num(hour-1)-num(hour-3);
+//		}
+	}
 }
