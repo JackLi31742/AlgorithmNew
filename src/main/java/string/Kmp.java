@@ -20,40 +20,7 @@ public class Kmp {
 		System.out.println(Arrays.toString(pmt2("bba".toCharArray())));
 	}
 	
-	/**
-	 * 暴力破解
-	 * @param haystack
-	 * @param needle
-	 * @return
-	 */
-	public static int strStr(String haystack, String needle) {
-		
-		if (needle.equals("")) {
-			return 0;
-		}
-		int i=0;//遍历haystack
-		int j=0;//遍历needle
-		
-		int hlen=haystack.length();
-		int nlen=needle.length();
-		
-		while(i<hlen&&j<nlen){
-			if (haystack.charAt(i)==needle.charAt(j)) {
-				i++;
-				j++;
-			}else {
-				i=i-j+1;
-				j=0;
-				
-			}
-			//i和j都再次加了一次
-			if (j==nlen) {
-				return i-j;
-			}
-		}
-		
-		return -1;
-    }
+
 	
 	/**
 	 * kmp
