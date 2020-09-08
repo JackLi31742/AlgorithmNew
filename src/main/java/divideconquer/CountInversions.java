@@ -3,17 +3,15 @@ package divideconquer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.imageio.plugins.common.I18NImpl;
-
-public class Count {
+public class CountInversions {
 	
 	
 	public static void main(String[] args) {
 		List<Integer> result=new ArrayList<Integer>(2);
 		
-//		System.out.println(result.get(0));;
-		int[]nums= {1,3,2,3,1};
-		System.out.println(reversePairs(nums));;
+		System.out.println(result.get(0));;
+		int[]nums= {5,2,6,1};
+		System.out.println(countSmaller(nums));;
 	}
 	
 	/**
@@ -61,6 +59,8 @@ public class Count {
 				temp[t1]=nums[j];
 				j++;
 			}else {
+				//这里也是
+//				count+=j-(mid+1);
 				temp[t1]=nums[i];
 				i++;
 			}
@@ -69,6 +69,8 @@ public class Count {
 		
 		//在上边时已经计算过，这里就不用再次计算
 		while(i<=mid) {
+			//如果不以j指向的元素作为参考，那么在走完上边的while循环后，说明左边的都大，需要继续加上对应的值
+//			count+=j-(mid+1);
 			temp[t1]=nums[i];
 			i++;
 			t1++;
@@ -115,26 +117,29 @@ public class Count {
 		int[]temp=new int[nums.length];
 		//由于排序过程会导致下标发生改变，需要记录原来的下标
 		int[]index=new int[nums.length];
+		//需要把下标的数组也进行交换
+		int[]tempIndex=new int[nums.length];
 		for (int i = 0; i < index.length; i++) {
+			//数组也是key-value形式，key是下标
 			index[i]=i;
 		}
-		countSmaller(nums, 0, nums.length-1, result, temp,index);
+		countSmaller(nums, 0, nums.length-1, result, temp,index,tempIndex);
 		return result;
     }
 	
 	
 	public static void countSmaller(int[] nums,int left,int right,
-			List<Integer> result,int[] temp,int[]index) {
+			List<Integer> result,int[] temp,int[]index,int[]tempIndex) {
 		if (left<right) {
 			int mid=(right-left)/2+left;
-			countSmaller(nums, left, mid, result, temp,index);
-			countSmaller(nums, mid+1, right, result, temp,index);
-			count(nums, left,mid, right, result, temp,index);
+			countSmaller(nums, left, mid, result, temp,index,tempIndex);
+			countSmaller(nums, mid+1, right, result, temp,index,tempIndex);
+			count(nums, left,mid, right, result, temp,index,tempIndex);
 		}	
 	}
 	
 	public static void count(int[] nums,int left,int mid,int right,
-			List<Integer> result,int[] temp,int[]index) {
+			List<Integer> result,int[] temp,int[]index,int[]tempIndex) {
 		//左边起始
 		int i=left;
 		//右边起始
@@ -143,29 +148,37 @@ public class Count {
 		int t2=0;
 		while(i<=mid&&j<=right) {
 			if (nums[i]>nums[j]) {
-				result.set(i, (result.get(i)+1));
 				temp[t1]=nums[j];
+				tempIndex[t1]=index[j];
 				j++;
 			}else {
+				int update=j-(mid+1);
+				result.set(index[i], (result.get(index[i])+update));
 				temp[t1]=nums[i];
+				tempIndex[t1]=index[i];
 				i++;
 			}
 			t1++;
 		}
 		
 		while(i<=mid) {
+			int update=j-(mid+1);
+			result.set(index[i], (result.get(index[i])+update));
 			temp[t1]=nums[i];
+			tempIndex[t1]=index[i];
 			i++;
 			t1++;
 		}
 		while(j<=right) {
 			temp[t1]=nums[j];
+			tempIndex[t1]=index[j];
 			j++;
 			t1++;
 		}
 		
 		while(left<=right) {
 			nums[left]=temp[t2];
+			index[left]=tempIndex[t2];
 			t2++;
 			left++;
 		}
