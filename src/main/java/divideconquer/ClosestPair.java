@@ -41,7 +41,7 @@ public class ClosestPair {
 	public static double closestDistance(Point[] points,int left,int right) {
 		if (left<right) {
 			int mid=left+(right-left)/2;
-			
+			//分
 			double leftDis=closestDistance(points, left, mid);
 			double rightDis=closestDistance(points, mid+1, right);
 			
@@ -55,7 +55,7 @@ public class ClosestPair {
 					strip.add(points[i]);
 				}
 			}
-			
+			//治
 			return getStripDis(strip, d);
 		}
 		//因为是求最小值，所以自身到自身的距离设置为最大，如果设置为0，那么最后就会返回0
