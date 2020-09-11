@@ -1,8 +1,16 @@
 package heap;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 public class Kth {
 	
@@ -21,6 +29,12 @@ public class Kth {
 		int[]result=smallestK3(arr, 4);
 		
 		System.out.println(Arrays.toString(result));
+		
+		
+		int[] nums= {1,1,1,2,2,3};
+		
+		topKFrequent(nums, 2);
+		
 	}
 	
 	/**
@@ -170,4 +184,149 @@ public class Kth {
 		arr[right]=temp;
 	}
 	
+	/**
+	 * 215. 数组中的第K个最大元素
+	 * 在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+	 * @param nums
+	 * @param k
+	 * @return
+	 */
+	public int findKthLargest(int[] nums, int k) {
+		if (nums==null||k==0) {
+			return 0;
+		}
+		
+		PriorityQueue<Integer> heap=new PriorityQueue<Integer>(k);
+		
+		for (int i = 0; i < k; i++) {
+			
+			heap.add(nums[i]);
+		}
+		for (int i = k; i < nums.length; i++) {
+			if (heap.peek()<=nums[i]) {
+				heap.poll();
+				heap.add(nums[i]);
+			}
+		}
+		return heap.peek();
+    }
+	
+	/**
+	 * 347. 前 K 个高频元素
+	 * 给定一个非空的整数数组，返回其中出现频率前 k 高的元素。
+	 * @param nums
+	 * @param k
+	 * @return
+	 */
+	public static int[] topKFrequent(int[] nums, int k) {
+		
+		HashMap<Integer, Integer> map=new HashMap<Integer, Integer>();
+
+		for (int i = 0; i < nums.length; i++) {
+			
+			if (map.containsKey(nums[i])) {
+				map.put(nums[i],map.get(nums[i])+1);
+			}else {
+				map.put(nums[i],1);
+			}
+			
+		}
+		
+		if (map.size()<k) {
+			return new int[k];
+		}
+		
+		//从大到小排序
+		Comparator<Map.Entry<Integer, Integer>> comparator=new Comparator<Map.Entry<Integer,Integer>>() {
+
+			@Override
+			public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
+				// TODO Auto-generated method stub
+				return o2.getValue()-o1.getValue();
+			}
+		};
+		
+		List<Map.Entry<Integer,Integer>> list=new ArrayList<>(map.entrySet());
+		
+		Collections.sort(list, comparator);
+		
+		int[]result=new int[k];
+		
+		for (int i = 0; i < result.length; i++) {
+			result[i]=list.get(i).getKey();
+		}
+		
+		return result;
+    }
+	
+	/**
+	 * 
+	 * @param nums
+	 * @param k
+	 * @return
+	 */
+	public static int[] topKFrequent2(int[] nums, int k) {
+		HashMap<Integer, Integer> map=new HashMap<Integer, Integer>();
+
+		for (int i = 0; i < nums.length; i++) {
+			
+			map.put(nums[i], map.getOrDefault(nums[i], 0)+1);
+			
+		}
+		
+		if (map.size()<k) {
+			return new int[k];
+		}
+		
+		//int数组，第一个代表nums[i]，第二个代表出现的次数，相当于把int[]数组当成了对象
+//		Comparator<int[]> comparator=new Comparator<int[]>() {
+//
+//			@Override
+//			public int compare(int[] o1, int[] o2) {
+//				// TODO Auto-generated method stub
+//				return o1[1]-o2[1];
+//			}
+//		};
+		
+		//小顶堆
+		Comparator<Map.Entry<Integer, Integer>> comparator=new Comparator<Map.Entry<Integer,Integer>>() {
+
+			@Override
+			public int compare(Entry<Integer, Integer> o1, Entry<Integer, Integer> o2) {
+				// TODO Auto-generated method stub
+				return o1.getValue()-o2.getValue();
+			}
+		};
+		
+		PriorityQueue<Map.Entry<Integer, Integer>> heap 
+				=new PriorityQueue<Map.Entry<Integer, Integer>>(k,comparator);
+		
+		
+		Iterator<Entry<Integer, Integer>> iterator = map.entrySet().iterator();
+		
+		int i=0;
+		
+		while(i<k) {
+			Entry<Integer, Integer> entry=iterator.next();
+			heap.add(entry);
+			i++;
+		}
+		
+		while(iterator.hasNext()) {
+			Entry<Integer, Integer> entry=iterator.next();
+			if (heap.peek().getValue()<entry.getValue()) {
+				heap.poll();
+				heap.add(entry);
+			}
+		}
+		
+		int[]result=new int[k];
+		
+		for (int j = 0; j < result.length; j++) {
+			result[j]=heap.poll().getKey();
+		}
+		
+		return result;
+		
+	}
 }
