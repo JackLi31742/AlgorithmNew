@@ -1,0 +1,122 @@
+package array;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
+public class MissNum {
+	
+	
+	public static void main(String[] args) {
+		int[]nums= {0,1,2};
+		
+		System.out.println(firstMissingPositive2(nums));;
+	}
+
+	/**
+	 * 41. 缺失的第一个正数
+	 * 给你一个未排序的整数数组，请你找出其中没有出现的最小的正整数。
+	 * 
+	 * 将数组排序后进行下标讨论，情况太多太复杂
+	 * 可以排序后使用二分查找，查找[1,N]的数是否在nums中出现过
+	 * @param nums
+	 * @return
+	 */
+	public static int firstMissingPositive(int[] nums) {
+
+		if (nums==null||nums.length==0) {
+			return 1;
+		}
+		Arrays.sort(nums);
+		int result=0;
+		int index=0;
+		for (int i = 0; i < nums.length; i++) {
+			if (nums[i]>=0) {
+				index=i;
+				break;
+			}
+		}
+		
+		int[] temp=Arrays.copyOfRange(nums, index, nums.length);
+		if (temp[0]>1) {
+			return 1;
+		}
+		if (temp[0]>0) {
+			
+		}
+		for (int i = 0; i < temp.length; i++) {
+			if (temp[i]>i) {
+				result=temp[i]-1;
+				if (result>0) {
+					
+					break;
+				}
+			}
+		}
+		if (result<=0) {
+			result=Math.max(1, temp[temp.length-1]+1);
+		}
+		return result;
+    }
+	/**
+	 * 采用哈希
+	 * 对于一个长度为 N 的数组，其中没有出现的最小正整数只能在 [1, N+1] 中
+	 * @param nums
+	 * @return
+	 */
+	public static int firstMissingPositive2(int[] nums) {
+		
+		HashSet<Integer> set=new HashSet<>();
+		for (int i = 0; i < nums.length; i++) {
+			set.add(nums[i]);
+		}
+		int result=0;
+		int index=0;
+		while(index<set.size()) {
+			//从1开始遍历
+			if (!set.contains(index+1)) {
+				result=index+1;
+				break;
+			}
+			index++;
+		}
+		if (result==0) {
+			result=index+1;
+		}
+		return result;
+	}
+	
+	/**
+	 * 排序后使用二分
+	 * @param nums
+	 * @return
+	 */
+	public static int firstMissingPositive3(int[] nums) {
+		if (nums==null||nums.length==0) {
+			return 1;
+		}
+		Arrays.sort(nums);
+		int result=0;
+		for (int i = 1; i <= nums.length; i++) {
+			int index = Arrays.binarySearch(nums, i);
+			if (index<0) {
+				result=i;
+				break;
+			}
+		}
+		
+		if (result==0) {
+			result=nums.length+1;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param nums
+	 * @return
+	 */
+	public static int firstMissingPositive4(int[] nums) {
+		
+	}
+}
