@@ -132,4 +132,52 @@ public class Fibonacci {
 			return 2*num(hour-1)-num(hour-3);
 //		}
 	}
+	
+	/**
+	 * 实现n!
+	 */
+	
+	public int getN(int n) {
+		if (n<=1) {
+			return 1;
+		}
+		return n*getN(n-1);
+	}
+	
+	public int getN2(int n) {
+		if (n<=1) {
+			return 1;
+		}
+		int result=1;
+		for (int i = 2; i <= n; i++) {
+			result=result*i;
+		}
+		return result;
+	}
+	
+	/**
+	 * 剑指 Offer 64. 求1+2+…+n
+	 * 求 1+2+...+n ，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。  
+	 * 
+	 * 利用逻辑运算符的短路性质。
+
+		以逻辑运算符 & 为例，对于 A & B 这个表达式，
+		如果 A 表达式返回 False ，那么 A & B 已经确定为 False ，此时不会去执行表达式 B。
+		同理，对于逻辑运算符 ||， 对于 A || B 这个表达式，如果 A 表达式返回True ，
+		那么 A || B 已经确定为 True ，此时不会去执行表达式 B。
+		
+		利用这一特性，我们可以将判断是否为递归的出口看作 A & B 表达式中的 A 部分，
+		递归的主体函数看作 B 部分。如果不是递归出口，则返回 True，并继续执行表达式 B 的部分，否则递归结束。
+	 * @param n
+	 * @return
+	 */
+	public int sumNums(int n) {
+		boolean flag=n>0&&(n+=sumNums(n-1))>0;
+		return n;
+    }
+	
+	public int sumNums2(int n) {
+		boolean flag=n<=0||(n+=sumNums(n-1))<0;
+		return n;
+	}
 }

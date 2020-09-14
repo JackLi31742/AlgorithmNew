@@ -9,7 +9,7 @@ public class MissNum {
 	public static void main(String[] args) {
 		int[]nums= {0,1,2};
 		
-		System.out.println(firstMissingPositive2(nums));;
+		System.out.println(firstMissingPositive4(nums));;
 	}
 
 	/**
@@ -117,6 +117,42 @@ public class MissNum {
 	 * @return
 	 */
 	public static int firstMissingPositive4(int[] nums) {
+		if (nums==null||nums.length==0) {
+			return 1;
+		}
+		int index=0;
+		int len=nums.length;
+		while(index<len) {
+			//赋值给x后，写判断时，逻辑会好懂
+			int x=nums[index];
+			//由于是下标，所以用的nums[x-1]
+			if (x>=1&&x<=len&&x!=nums[x-1]) {
+				swip(nums, index, x-1);
+			}else {
+				index++;
+			}
+		}
 		
+		int result=0;
+		for (int i = 0; i < len; i++) {
+			int x=nums[i];
+			//x!=nums[x-1]容易数组越界
+			if (i+1!=x) {
+				result=i+1;
+				break;
+			}
+			
+		}
+		//说明走完了nums数组，没有缺失
+		if (result==0) {
+			result=len+1;
+		}
+		return result;
+	}
+	
+	public static void swip(int[] nums,int i,int j) {
+		int temp=nums[i];
+		nums[i]=nums[j];
+		nums[j]=temp;
 	}
 }
