@@ -7,25 +7,35 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
 
-import com.sun.media.sound.RIFFInvalidDataException;
-import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
-
 public class Traversal {
 
 	public static void main(String[] args) {
-		TreeNode node1=new TreeNode(1);
-		TreeNode node2=new TreeNode(2);
-		TreeNode node3=new TreeNode(3);
-		TreeNode node4=new TreeNode(4);
-		TreeNode node5=new TreeNode(5);
+		TreeNode node1=new TreeNode(5);
+		TreeNode node2=new TreeNode(4);
+		TreeNode node3=new TreeNode(8);
+		TreeNode node4=new TreeNode(11);
+		TreeNode node5=new TreeNode(13);
+		TreeNode node6=new TreeNode(4);
+		TreeNode node7=new TreeNode(7);
+		TreeNode node8=new TreeNode(2);
+		TreeNode node9=new TreeNode(5);
+		TreeNode node10=new TreeNode(1);
 		
 		node1.left=node2;
 		node1.right=node3;
 		node2.left=node4;
-		node3.right=node5;
-		
+		node3.left=node5;
+		node3.right=node6;
+		node4.left=node7;
+		node4.right=node8;
+		node6.left=node9;
+		node6.right=node10;
 //		System.out.println(postorderTraversal2(node1));;
-		System.out.println(zigzagLevelOrder(node1));
+//		System.out.println(zigzagLevelOrder(node1));
+		
+		
+		System.out.println(pathSum(node1, 22));;
+		
 		
 	}
 	/**
@@ -444,4 +454,130 @@ public class Traversal {
 		
 		return depth;
     }
+	
+	/**
+	 * 226. 翻转二叉树
+	 * 
+			 4
+		   /   \
+		  2     7
+		 / \   / \
+		1   3 6   9
+		
+		     4
+		   /   \
+		  7     2
+		 / \   / \
+		9   6 3   1
+	 * @param root
+	 * @return
+	 */
+	public static TreeNode invertTree(TreeNode root) {
+		if (root==null) {
+			return null;
+		}
+		//不能直接把root赋值给newRoot，会把原有的引用复制过去
+		TreeNode newRoot=new TreeNode(root.val);
+		newRoot.right=invertTree(root.left);
+		newRoot.left=invertTree(root.right);
+		return newRoot;
+    }
+	
+	public static TreeNode invertTree2(TreeNode root) {
+		if (root==null) {
+			return null;
+		}
+		Queue<TreeNode> queue=new ArrayDeque<TreeNode>();
+		queue.add(root);
+		while(!queue.isEmpty()) {
+			TreeNode node=queue.poll();
+			//交换
+			TreeNode temp=node.left;
+			node.left=node.right;
+			node.right=temp;
+			if (node.left!=null) {
+				queue.add(node.left);
+			}
+			if (node.right!=null) {
+				queue.add(node.right);
+			}
+		}
+		return root;
+	}
+	
+	/**
+	 * 112. 路径总和
+	 * 给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
+	 * @param root
+	 * @param sum
+	 * @return
+	 */
+	public static boolean hasPathSum(TreeNode root, int sum) {
+		if (root==null) {
+			return false;
+		}
+		int result=0;
+		return hasPathSum(root, sum,result);
+    }
+	
+	public static boolean hasPathSum(TreeNode root, int sum,int result) {
+		if (root==null) {
+			return false;
+		}
+		result+=root.val;
+		if (root.left==null&&root.right==null&&result==sum) {
+			return true;
+		}
+		
+		boolean left=hasPathSum(root.left, sum, result);
+		//相当于剪枝
+		if (left) {
+			return true;
+		}
+		
+		boolean right=hasPathSum(root.right, sum, result);
+		if (right) {
+			return true;
+		}
+//		return left||right;
+		return false;
+	}
+	
+	/**
+	 * 113. 路径总和 II
+	 * 给定一个二叉树和一个目标和，找到所有从根节点到叶子节点路径总和等于给定目标和的路径。
+	 * @param root
+	 * @param sum
+	 * @return
+	 */
+	public static List<List<Integer>> pathSum(TreeNode root, int sum) {
+		List<List<Integer>> list=new ArrayList<List<Integer>>();
+		if (root==null) {
+			return list;
+		}
+		
+		int result=0;
+		List<Integer> eachList=new ArrayList<Integer>();
+		pathSum(root, sum,list,result,eachList);
+		
+		return list;
+    }
+	
+	public static void pathSum(TreeNode root, int sum,
+			List<List<Integer>> list,int result,List<Integer> eachList) {
+		if (root!=null) {
+			result+=root.val;
+			eachList.add(root.val);
+			if (root.left==null&&root.right==null&&result==sum) {
+				list.add(new ArrayList<Integer>(eachList));
+				eachList.remove(eachList.size()-1);
+				return ;
+			}
+			
+			pathSum(root.left, sum, list, result, eachList);
+			pathSum(root.right, sum, list, result, eachList);
+			
+			eachList.remove(eachList.size()-1);
+		}
+	}
 }
