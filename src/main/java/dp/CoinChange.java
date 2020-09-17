@@ -5,9 +5,9 @@ import java.util.Arrays;
 public class CoinChange {
 	
 	public static void main(String[] args) {
-		int[]coins= {1, 2, 5};
+		int[]coins= {186,419,83,408};
 		
-		System.out.println(coinChange(coins, 11));;
+		System.out.println(coinChange2(coins, 6249));;
 	}
 
 	/**
@@ -22,32 +22,81 @@ public class CoinChange {
 	 * @param amount
 	 * @return
 	 */
+	static int min=Integer.MAX_VALUE;
 	public static int coinChange(int[] coins, int amount) {
-		int count=0;
 		
 		Arrays.sort(coins);
 		
-		
-		coinChange(coins, amount, count, coins.length-1);
+		coinChange(coins, amount, 0, coins.length-1);
+		if (min==Integer.MAX_VALUE) {
+			return -1;
+		}
 		return min;
     }
-	static int min=Integer.MAX_VALUE;
-	public static int coinChange(int[] coins, int amount,int count,int k) {
+	public static void coinChange(int[] coins, int amount,int count,int k) {
+		int temp=amount;
+		//商
+		int quotient=temp/coins[k];
+		
+		//每次商需要减一操作，而且每个组成的硬币的种类如果找不到也要减一
 		for (int i = k;  i >=0 ; i--) {
+			System.out.println(temp+","+count+","+k+","+i);
 			//商
-			int quotient=amount/coins[i];
+			quotient=temp/coins[i];
 			//余数
-			int remainder=amount%coins[i];
+			int remainder=temp%coins[i];
 			count+=quotient;
+			System.out.println(quotient+","+remainder+","+count);
 			if (remainder==0) {
 				if (count<min) {
 					min=count;
 				}
-				return min;
+				break;
+				
 			}else {
-				coinChange(coins, remainder, count, k-1);
+				
+				temp=remainder;
 			}
 		}
-		return min;
+		System.out.println("--------------------------");
+		if (k>=0) {
+			
+			coinChange(coins, amount, 0, k-1);
+		}
+		
 	}
+	
+	/**
+	 * 使用dp
+	 * F(i)=F(i-ci)+1
+	 * @param coins
+	 * @param amount
+	 * @return
+	 */
+	public static int coinChange2(int[] coins, int amount) {
+		
+		int max=amount+1;
+		int[]dp=new int[max];
+		//为了最后好比较，返回-1的时候
+		Arrays.fill(dp, max);
+		dp[0]=0;
+		
+		for (int i = 1; i < dp.length; i++) {
+			int min=max;
+			for (int j = 0; j < coins.length; j++) {
+				if (i>=coins[j]) {
+					
+					int count=dp[i-coins[j]]+1;
+					if (count<min) {
+						min=count;
+					}
+				}
+			}
+			
+			dp[i]=min;
+		}
+		
+		return dp[amount]>amount?-1:dp[amount];
+	}
+	
 }

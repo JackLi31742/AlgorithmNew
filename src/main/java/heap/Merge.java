@@ -12,6 +12,7 @@ public class Merge {
 	 * 给你一个链表数组，每个链表都已经按升序排列。
 
 	请你将所有链表合并到一个升序链表中，返回合并后的链表。
+	建堆的时间是O(k)logk，剩下n-k个点，最坏情况都要进来堆进行比较，每次比较是logk，所以总的是O(n)logk
 	 * @param lists
 	 * @return
 	 */
@@ -52,4 +53,6 @@ public class Merge {
 		
 		return newHead.next;
     }
+	
+	
 }
