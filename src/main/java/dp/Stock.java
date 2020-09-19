@@ -5,7 +5,7 @@ public class Stock {
 	public static void main(String[] args) {
 		int[]prices= {7,1,5,3,6,4};
 		
-		System.out.println(maxProfit2(prices));;
+		System.out.println(maxProfit24(prices));;
 	}
 	/**
 	 * 121. 买卖股票的最佳时机
@@ -58,6 +58,7 @@ public class Stock {
 
 	注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
 
+		这个dp版本是错的
 		f(i,j)代表i天到j天的最大利润
 		f(i,j)=f(i,x)+f(x+1,j)
 	 * @param prices
@@ -117,5 +118,112 @@ public class Stock {
 			System.out.println();
 		}
 		return dp[0][len-1];
+    }
+	
+	/**
+	 * 要想获得最大的股票收益，那么贪心算法，要买在低点，卖在高点
+	 * 而且还要每次的低点购买，低点之后的高点卖出，那么比在最低点买，最高点卖要收益大
+	 * @param prices
+	 * @return
+	 */
+	public static int maxProfit22(int[] prices) {
+		if (prices==null||prices.length<2) {
+			return 0;
+		}
+		int max=0;
+		int i=1;
+		while(i<prices.length) {
+			while(i<prices.length&&prices[i]<prices[i-1]) {
+				i++;
+			}
+			int low=prices[i-1];
+			while(i<prices.length&&prices[i]>prices[i-1]) {
+				i++;
+			}
+			int high=prices[i-1];
+			max+=high-low;
+			i++;
+		}
+		
+		return max;
+	}
+	
+	/**
+	 * 贪心算法，贪心的本质，就是做出当下认为最优的解，对于买卖股票，当下最优就是只要第二天的股票价格比今天 的高，就选择卖出
+	 * 针对本题目，在股价上升的情况下，连续的买卖，最后得到的和就是从谷底到波峰的差
+	 * 这里只是模拟连续买卖，实际上并不是这么操作的，只是因为数学上是相等的
+	 * @param prices
+	 * @return
+	 */
+	public static int maxProfit23(int[] prices) {
+		int max=0;
+		if (prices==null||prices.length<2) {
+			return max;
+		}
+		
+		for (int i = 1; i < prices.length; i++) {
+			if (prices[i]>prices[i-1]) {
+				max+=prices[i]-prices[i-1];
+			}
+		}
+		return max;
+	}
+	
+	
+	/**
+	 * dp中的状态，是今天买还是卖，具体到dp数组中就是持有股票还是现金
+	 * 因为不限制交易次数，除了最后一天，每一天的状态可能不变化，也可能转移；
+	 * dp[i][j] 代表i天时持有的最大收益
+	 * i代表i天，j代表这天是持有股票0还是持有现金1
+	 * @param prices
+	 * @return
+	 */
+	public static int maxProfit24(int[] prices) {
+		if (prices==null||prices.length<2) {
+			return 0;
+		}
+		int[][]dp=new int[prices.length][2];
+		
+		//第一天持有了股票，就是买入了股票
+		dp[0][0]=-prices[0];
+		//第一天什么都不做
+		dp[0][1]=0;
+		
+		
+		for (int i = 1; i < dp.length; i++) {
+			dp[i][0]=Math.max(dp[i-1][0], dp[i-1][1]-prices[i]);
+			dp[i][1]=Math.max(dp[i-1][1], dp[i-1][0]+prices[i]);
+		}
+		
+		return dp[prices.length-1][1];
+	}
+	
+	/**
+	 * 309. 最佳买卖股票时机含冷冻期
+	 * 在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）:
+
+你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)。
+		
+	 * dp[i][j] 代表i天时持有的最大收益
+	 * i代表i天，j代表这天是持有股票0还是持有现金1，还是冷冻期2
+	 * @param prices
+	 * @return
+	 */
+	public int maxProfit3(int[] prices) {
+		if (prices==null||prices.length<2) {
+			return 0;
+		}
+		int[][]dp=new int[prices.length][2];
+		
+		//第一天持有了股票，就是买入了股票
+		dp[0][0]=-prices[0];
+		//第一天什么都不做
+		dp[0][1]=0;
+		//第一天没有冷冻期
+		dp[0][2]=0;
+		for (int i = 1; i < dp.length; i++) {
+			dp[i][0]=
+		}
     }
 }
