@@ -3,9 +3,9 @@ package dp;
 public class Stock {
 
 	public static void main(String[] args) {
-		int[]prices= {7,1,5,3,6,4};
+		int[]prices= {1,3,2,8,4,9};
 		
-		System.out.println(maxProfit24(prices));;
+		System.out.println(maxProfit(prices,2));;
 	}
 	/**
 	 * 121. 买卖股票的最佳时机
@@ -205,12 +205,78 @@ public class Stock {
 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
 卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)。
 		
-	 * dp[i][j] 代表i天时持有的最大收益
-	 * i代表i天，j代表这天是持有股票0还是持有现金1，还是冷冻期2
+	 * dp[i][j][k] 代表i天时持有的最大收益
+	 * i代表i天，
+	 * j代表是否为冷冻期，0代表是，1代表不是
+	 * k代表这天是持有股票0还是持有现金1
 	 * @param prices
 	 * @return
 	 */
-	public int maxProfit3(int[] prices) {
+	public static int maxProfit3(int[] prices) {
+		if (prices==null||prices.length<2) {
+			return 0;
+		}
+		int[][][]dp=new int[prices.length][2][2];
+		
+		//第一天持有了股票，就是买入了股票
+		dp[0][1][0]=-prices[0];
+		//第一天什么都不做
+		dp[0][1][1]=0;
+		//第一天没有冷冻期
+		dp[0][0][0]=0;
+		dp[0][0][1]=0;
+		for (int i = 1; i < dp.length; i++) {
+			
+			//i天是冷冻期持有现金
+			dp[i][0][1]=dp[i-1][1][1];
+			//i天不是冷冻期持有股票
+			dp[i][1][0]=Math.max(dp[i-1][1][0],dp[i-1][0][1]-prices[i]);
+			//i天不是冷冻期持有现金
+			dp[i][1][1]=Math.max(Math.max(dp[i-1][0][1],dp[i-1][1][1]),dp[i-1][1][0]+prices[i]);
+		}
+		
+		return Math.max(dp[prices.length-1][0][1],dp[prices.length-1][1][1]);
+    }
+	
+	/**
+	 * dp[i][j] 代表i天时持有的最大收益
+	 * i代表i天，
+	 
+	 * j代表这天是持有股票0还是持有现金1，还是冷冻期持有现金2
+	 * @param prices
+	 * @return
+	 */
+	public static int maxProfit32(int[] prices) {
+		if (prices==null||prices.length<2) {
+			return 0;
+		}
+		int[][]dp=new int[prices.length][3];
+		
+		//第一天持有了股票，就是买入了股票
+		dp[0][0]=-prices[0];
+		//第一天什么都不做
+		dp[0][1]=0;
+		dp[0][2]=0;
+		for (int i = 1; i < dp.length; i++) {
+			//由于有冷冻期，只能是冷冻期-prices[i]
+			dp[i][0]=Math.max(dp[i-1][0], dp[i-1][2]-prices[i]);
+			dp[i][1]=Math.max(Math.max(dp[i-1][1],dp[i-1][2]), dp[i-1][0]+prices[i]);
+			dp[i][2]=dp[i-1][1];
+			
+		}
+		
+		return Math.max(dp[prices.length-1][1],dp[prices.length-1][2]);
+	}
+	
+	/**
+	 * 714. 买卖股票的最佳时机含手续费
+	 * 你可以无限次地完成交易，但是你每笔交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。
+	 * 注意：这里的一笔交易指买入持有并卖出股票的整个过程，每笔交易你只需要为支付一次手续费。
+	 * @param prices
+	 * @param fee
+	 * @return
+	 */
+	public static int maxProfit(int[] prices, int fee) {
 		if (prices==null||prices.length<2) {
 			return 0;
 		}
@@ -220,10 +286,13 @@ public class Stock {
 		dp[0][0]=-prices[0];
 		//第一天什么都不做
 		dp[0][1]=0;
-		//第一天没有冷冻期
-		dp[0][2]=0;
+		
+		
 		for (int i = 1; i < dp.length; i++) {
-			dp[i][0]=
+			dp[i][0]=Math.max(dp[i-1][0], dp[i-1][1]-prices[i]);
+			dp[i][1]=Math.max(dp[i-1][1], dp[i-1][0]+prices[i]-fee);
 		}
+		
+		return dp[prices.length-1][1];
     }
 }
