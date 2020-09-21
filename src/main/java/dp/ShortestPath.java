@@ -1,6 +1,7 @@
 package dp;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ShortestPath {
@@ -82,7 +83,22 @@ public class ShortestPath {
 //		        System.out.println(uniquePaths2(7, 3));
 //		        System.out.println(count);
 		        
-		        System.out.println(uniquePathsWithObstacles(grid1));
+//		        System.out.println(uniquePathsWithObstacles(grid1));
+		        
+		        
+		        List<List<Integer>> triangle=new ArrayList<List<Integer>>();
+		        
+		        List<Integer> list1=Arrays.asList(2);
+		        List<Integer> list2=Arrays.asList(3,4);
+		        List<Integer> list3=Arrays.asList(6,5,7);
+		        List<Integer> list4=Arrays.asList(4,1,8,3);
+		        
+		        triangle.add(list1);
+		        triangle.add(list2);
+		        triangle.add(list3);
+		        triangle.add(list4);
+		        
+		        System.out.println(minimumTotal(triangle));;
 	}
 	/***
 	 * 图的最短路径
@@ -331,7 +347,7 @@ public class ShortestPath {
 	 * @return
 	 */
 	public List<List<Integer>> generate(int numRows) {
-		return null;
+		
 
     }
 	
@@ -341,10 +357,72 @@ public class ShortestPath {
 
 相邻的结点 在这里指的是 下标 与 上一层结点下标 相同或者等于 上一层结点下标 + 1 的两个结点。
 
+		dp[i][j]:代表从顶到i行j列的元素的最小路径和
+		dp[i][j]=min(dp[i-1][j],dp[i-1][j-1])+triangle.get(i).get(j)
+		dp[0][0]=triangle.get(0).get(0)
 	 * @param triangle
 	 * @return
 	 */
-	public int minimumTotal(List<List<Integer>> triangle) {
-
+	public static int minimumTotal(List<List<Integer>> triangle) {
+		if (triangle==null||triangle.size()==0) {
+			return 0;
+		}
+		
+		int iLen=triangle.size();
+//		int jLen=triangle.get(iLen-1).size();
+		
+		int[][] dp=new int[iLen][];
+		
+		for (int i = 0; i < iLen; i++) {
+			dp[i]=new int[triangle.get(i).size()];
+		}
+		
+		dp[0][0]=triangle.get(0).get(0);
+		
+		for (int i = 1; i < iLen; i++) {
+			dp[i][0]+=dp[i-1][0]+triangle.get(i).get(0);
+		}
+		
+		
+		for (int i = 1; i < iLen; i++) {
+			for (int j = 1; j < triangle.get(i).size(); j++) {
+//				System.out.println(dp[i-1][j]);
+//				System.out.println(dp[i-1][j-1]);
+//				System.out.println(triangle.get(i).get(j));
+				
+				//这有两个可能越界的地方，一个是如果dp的列按照jLen设置，triangle.get(i).get(j)会越界
+				//如果dp按照triangle每一行的列的大小设置，dp[i-1][j]会越界
+				if (j>=triangle.get(i-1).size()) {
+					dp[i][j]=dp[i-1][j-1]+triangle.get(i).get(j);
+				}else {
+					
+					dp[i][j]=Math.min(dp[i-1][j], dp[i-1][j-1])+triangle.get(i).get(j);
+				}
+			}
+		}
+		
+		int min=dp[iLen-1][0];
+		for (int j = 1; j < triangle.get(iLen-1).size(); j++) {
+			if (dp[iLen-1][j]<min) {
+				min=dp[iLen-1][j];
+			}
+		}
+		
+		return min;
     }
+	
+	/**
+	 * O(n) 的额外空间（n 为三角形的总行数）
+	 * @param triangle
+	 * @return
+	 */
+	public static int minimumTotal(List<List<Integer>> triangle) {
+		if (triangle==null||triangle.size()==0) {
+			return 0;
+		}
+		
+		int iLen=triangle.size();
+		
+		int[] dp=new int[iLen];
+	}
 }

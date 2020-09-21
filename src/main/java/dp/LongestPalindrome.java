@@ -3,7 +3,7 @@ package dp;
 public class LongestPalindrome {
 	
 	public static void main(String[] args) {
-		String string="babad";
+		String string="bb";
 		
 		System.out.println(longestPalindrome3(string));;
 		System.out.println(string.length());
@@ -70,6 +70,11 @@ public class LongestPalindrome {
 	/**
 	 * dp[i][j]从i到j是否是回文串
 	 * dp[i][j]=dp[i+1][j-1]&&s.charAt(i)==s.charAt(j)
+	 * 
+	 * 对于s来说，如果s的长度是0和1，那么肯定是回文串
+	 * 由于是从i到i+len的形式，那么不存在s为0的情况，s为1，就是从i到i，dp[i][i]=true
+	 * 当s的长度是2和3，那么只需要比较s的左右两端
+	 * 反映到i到i+len的形式，就是len是1或者2，比较s.charAt(i)==s.charAt(i+len)
 	 * @param s
 	 * @return
 	 */
@@ -78,30 +83,139 @@ public class LongestPalindrome {
 		if (s==null||s.length()<2) {
 			return s;
 		}
-		int len=s.length();
-		boolean[][] dp=new boolean[len][len];
 		
+		char[] arr = s.toCharArray();
+		int len = s.length();
+		boolean[][] dp = new boolean[len][len];
+		
+		int begin=0;
+		//单个字符也是回文，所以最短都是1,max代表距离begin的距离
+		int max=0;
+		
+		//l为0的情况
 		for (int i = 0; i < len; i++) {
 			dp[i][i]=true;
 		}
-		
-		//为了得到dp[i+1][j-1]，i需要先计算后边的
-		for (int i = len-2;i>=0;i--) {
-			for (int j = 1; j < len; j++) {
-				//如果一个字符串的头尾两个字符相等，才有必要继续判断下去
-				dp[i][j]=s.charAt(i)==s.charAt(j)&&dp[i+1][j-1];
-				dp[j][i]=dp[j+1][i-1]&&s.charAt(j)==s.charAt(i);
+		//l代表从i出发到j的距离
+		for (int l = 1; l < 3; l++) {
+			//i代表起点 ，由于j是由i+l得到，需要在i这个循环进行控制
+			for (int i = 0; i+l < len; i++) {
+				//j代表终点
+				int j=i+l;
+				
+				if (arr[i]==arr[j]) {
+					dp[i][j]=true;
+					begin=i;
+					//长度需要加上i本身
+					max=l;
+				}
 			}
 		}
 		
+		//当长度大于3的时候，才需要状态转移
+		for (int l = 3; l < len; l++) {
+			
+			for (int i = 0; i+l < len; i++) {
+				//这样填表才能填对顺序
+				int j=i+l;
+				dp[i][j]=dp[i+1][j-1]&&arr[i]==arr[j];
+				
+				if (dp[i][j]&&l>max) {
+					begin=i;
+					max=l;
+				}
+			}
+		}
+		
+		
+		return String.valueOf(arr, begin, max+1);
 	}
 	
 	
+	/**
+	 * 中心扩散，选择一个字符，从这个字符开始进行左右扩散
+	 * @param s
+	 * @return
+	 */
+	public static String longestPalindrome3(String s) {
+		
+		if (s==null||s.length()<2) {
+			return s;
+		}
+		
+		char[] arr = s.toCharArray();
+		int len = arr.length;
+		//begin count
+		int begin=0;
+		int count=1;
+		
+		for (int i = 0; i < len; i++) {
+			
+			//奇数和偶数，这两初始值不一样，由于不知道要传入奇数还是偶数，所以需要都传一次，看哪个大
+			int[] odd =spread(arr, len, new int[2] ,i-1,i+1);
+			int[] even =spread(arr, len, new int[2], i-1, i);
+			
+			int[] result=odd[1]>even[1]?odd:even;
+			
+			if (result[1]>count) {
+				count=result[1];
+				begin=result[0];
+			}
+		}
+		
+		return String.valueOf(arr, begin, count);
+	}
+	
+	public static int[] spread(char[]arr,int len,int[]result,int left,int right) {
+		
+		
+//		int left=mid-1;
+//		int right=mid+1;
+		
+		while(left>=0&&right<len) {
+			if (arr[left]==arr[right]) {
+				left--;
+				right++;
+			}else {
+				break;
+			}
+		}
+		
+		result[0]=left+1;
+		result[1]=right-left-1;
+		
+		return result;
+	}
 	
 	/**
 	 * 516. 最长回文子序列
+	 * dp[i][j]：代表从i到j最长的公共子序列，谨记是从i到j，
+	 * 别因为是子序列，就延长到i的左边，j的右边，那些不是dp[i][j]的职责范围，这是dp不是中心扩散
+	 * 
+	 * 如果arr[i]==arr[j]，dp[i][j]=dp[i+1][j-1]+2
+	 * 如果arr[i]!=arr[j],，说明i和j这两个字符不能同时出现在dp[i][j]中，所以要比较dp[i+1][j]和dp[i][j-1]的大小
 	 */
 	public int longestPalindromeSubseq(String s) {
 
+		if (s==null||s.length()==0) {
+			return 0;
+		}
+		
+		if (s.length()==1) {
+			return 1;
+		}
+		
+		char[] arr = s.toCharArray();
+		int len = arr.length;
+		
+		int count=1;
+		
+		boolean[][] dp = new boolean[len][len];
+		
+		for (int i = 0; i < len; i++) {
+			
+			
+		}
+		
     }
 }
