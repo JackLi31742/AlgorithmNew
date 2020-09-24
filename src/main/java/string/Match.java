@@ -4,6 +4,11 @@ public class Match {
 
 	public static void main(String[] args) {
 		System.out.println(gcd(4,8));;
+		
+		String hayString="a";
+		String llString="a";
+		
+		System.out.println(strStr2(hayString, llString));
 	}
 	
 	/**
@@ -40,6 +45,55 @@ public class Match {
 		
 		return -1;
     }
+	
+	/**
+	 * 另一种暴力破解
+	 * @param haystack
+	 * @param needle
+	 * @return
+	 */
+	public static int strStr2(String haystack, String needle) {
+		if (haystack==null||needle==null) {
+			return -1;
+		}
+		if (needle.equals("")) {
+			return 0;
+		}
+		
+		int hlen=haystack.length();
+		int nlen=needle.length();
+		
+		//可以有等于号，或者+1
+		for (int i = 0; i < hlen-nlen+1; i++) {
+			//每次都得重新设置
+			boolean notEqual=false;
+
+			for (int j = 0; j < nlen; j++) {
+				//随着j增加，i+j也在增加
+				if (haystack.charAt(i+j)!=needle.charAt(j)) {
+					notEqual=true;
+					break;
+				}
+			}
+			//走完一次，如果都相等
+			if (!notEqual) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+	
+	/**
+	 * RK算法，将字符串变成hashcode
+	 * @param haystack
+	 * @param needle
+	 * @return
+	 */
+	public static int strStr2(String haystack, String needle) {
+		
+	}
+	
 	/**
 	 * 1071. 字符串的最大公因子
 	 * 对于字符串 S 和 T，只有在 S = T + ... + T（T 与自身连接 1 次或多次）时，我们才认定 “T 能除尽 S”。

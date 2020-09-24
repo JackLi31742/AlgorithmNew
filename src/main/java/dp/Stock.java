@@ -45,7 +45,9 @@ public class Stock {
 		dp[0]=0;
 		int min=prices[0];
 		for (int i = 1; i < dp.length; i++) {
+			//一次for循环找到最小的min
 			min=Math.min(min, prices[i-1]);
+			//判断dp[i-1]和这天的价格减去min，哪个更大
 			dp[i]=Math.max(dp[i-1], prices[i-1]-min);
 		}
 		

@@ -68,7 +68,10 @@ public class CoinChange {
 	
 	/**
 	 * 使用dp
+	 * F(i) 为组成金额 i 所需最少的硬币数量，dp数组的长度是amount+1，
 	 * F(i)=F(i-ci)+1
+	 * 也就是i代表对应的钱，ci对应第i个硬币的面值，由于要硬币数量最少，
+	 * 所以 F(i) 为前面能转移过来的状态的最小值加上枚举的硬币数量 1 。
 	 * @param coins
 	 * @param amount
 	 * @return
@@ -84,6 +87,7 @@ public class CoinChange {
 		for (int i = 1; i < dp.length; i++) {
 			int min=max;
 			for (int j = 0; j < coins.length; j++) {
+				//比i大，就没必要，因为不可能是由比i大的值组合得到i
 				if (i>=coins[j]) {
 					
 					int count=dp[i-coins[j]]+1;

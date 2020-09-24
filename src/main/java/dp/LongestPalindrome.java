@@ -3,10 +3,10 @@ package dp;
 public class LongestPalindrome {
 	
 	public static void main(String[] args) {
-		String string="bb";
+		String string="abaabaa";
 		
-		System.out.println(longestPalindrome3(string));;
-		System.out.println(string.length());
+		System.out.println(longestPalindromeSubseq(string));;
+//		System.out.println(string.length());
 	}
 	
 	/**
@@ -189,13 +189,14 @@ public class LongestPalindrome {
 	
 	/**
 	 * 516. 最长回文子序列
-	 * dp[i][j]：代表从i到j最长的公共子序列，谨记是从i到j，
+	 * dp[i][j]：代表从i到j最长的公共子序列的长度，谨记是从i到j，
 	 * 别因为是子序列，就延长到i的左边，j的右边，那些不是dp[i][j]的职责范围，这是dp不是中心扩散
 	 * 
 	 * 如果arr[i]==arr[j]，dp[i][j]=dp[i+1][j-1]+2
 	 * 如果arr[i]!=arr[j],，说明i和j这两个字符不能同时出现在dp[i][j]中，所以要比较dp[i+1][j]和dp[i][j-1]的大小
+	 * 也就是要比较dp[i][j]左边和下边的值的大小
 	 */
-	public int longestPalindromeSubseq(String s) {
+	public static int longestPalindromeSubseq(String s) {
 
 		if (s==null||s.length()==0) {
 			return 0;
@@ -208,14 +209,51 @@ public class LongestPalindrome {
 		char[] arr = s.toCharArray();
 		int len = arr.length;
 		
-		int count=1;
-		
-		boolean[][] dp = new boolean[len][len];
+		int[][] dp = new int[len][len];
 		
 		for (int i = 0; i < len; i++) {
-			
-			
+			dp[i][i]=1;
+		}
+		for (int i = 1; i < len; i++) {
+			if (arr[i]==arr[i-1]) {
+				dp[i-1][i]=2;
+			}else {
+				//和最长回文子串不同，需要赋值1，不然加的时候就成0了
+				dp[i-1][i]=1;
+			}
 		}
 		
+		
+		for (int l = 2; l < len; l++) {
+			for (int i = 0; i+l < len; i++) {
+				int j=i+l;
+				if (arr[i]==arr[j]) {
+					dp[i][j]=dp[i+1][j-1]+2;
+				}else {
+//					if (arr[i+1]==arr[j]||arr[i]==arr[j-1]) {
+						//不能是dp[i+1][j]+1，或者dp[i][j-1]+1，
+					//因为dp[i+1][j]右边虽然加了j，但左边也少了一个字符，相当于不加不减
+					
+						dp[i][j]=Math.max(dp[i+1][j], dp[i][j-1]);
+//					}else {
+						//即使上边的if两项都不相等，也不能等于dp[i+1][j-1]
+//						dp[i][j]=dp[i+1][j-1];
+//					}
+				}
+			}
+		}
+		
+		return dp[0][len-1];
     }
+	
+	
+	/**
+	 * 730. 统计不同回文子序列
+	 * @param S
+	 * @return
+	 */
+	public int countPalindromicSubsequences(String S) {
+
+    }
+	
 }
