@@ -3,12 +3,14 @@ package string;
 public class Match {
 
 	public static void main(String[] args) {
-		System.out.println(gcd(4,8));;
+//		System.out.println(gcd(4,8));;
 		
-		String hayString="a";
-		String llString="a";
-		
-		System.out.println(strStr2(hayString, llString));
+		String hayString="mississippi";
+		String llString="issi";
+		System.out.println(hayString.indexOf(llString));
+		System.out.println((int)'i');
+		System.out.println((int)'s');
+		System.out.println(strStr4(hayString, llString));
 	}
 	
 	/**
@@ -86,13 +88,105 @@ public class Match {
 	
 	/**
 	 * RK算法，将字符串变成hashcode
+	 * 
+	 * hash函数可以将字符串转换为一个整数，则hash结果不同的字符串肯定不同，但hash结果相同的字符串则很有可能相同
 	 * @param haystack
 	 * @param needle
 	 * @return
 	 */
-	public static int strStr2(String haystack, String needle) {
+	
+	private static final int HASHSIZE=100000019;
+	private static final int PRIME=31;
+	
+	public static int strStr3(String haystack, String needle) {
 		
+		int hLen=haystack.length();
+		int nLen=needle.length();
+		
+		char[] hArr=haystack.toCharArray();
+		char[] nArr = needle.toCharArray();
+		
+		int nHash=0;
+		
+		for (int i = 0; i < nLen; i++) {
+			nHash+=nArr[i]*PRIME%HASHSIZE;
+		}
+		
+		for (int i = 0; i < hLen-nLen+1; i++) {
+			int hHash=0;
+			for (int j = i; j < i+nLen; j++) {
+				hHash+=hArr[j]*PRIME%HASHSIZE;
+			}
+			
+			if (hHash==nHash&&compare(hArr, nArr, i, 0)) {
+				return i;
+			}
+		}
+		
+		return -1;
 	}
+	
+	
+	public static int strStr4(String haystack, String needle) {
+		
+		if (haystack==null||needle==null||haystack.length()<needle.length()) {
+			return -1;
+		}
+		if (needle.equals("")) {
+			return 0;
+		}
+		
+		int hLen=haystack.length();
+		int nLen=needle.length();
+		
+		char[] hArr=haystack.toCharArray();
+		char[] nArr = needle.toCharArray();
+		
+		int nHash=0;
+		int hHash=0;
+		for (int i = 0; i < nLen; i++) {
+			nHash=(nHash+nArr[i])*PRIME%HASHSIZE;
+			hHash=(hHash+hArr[i])*PRIME%HASHSIZE;
+			
+		}
+		System.out.println(nHash);
+		if (hHash==nHash&&compare(hArr, nArr, 0, 0)) {
+			return 0;
+		}
+		//计算Math.pow(PRIME, nLen)
+		int base=1;
+		for (int i = 0; i <= nLen; i++) {
+			base*=PRIME;
+		}
+		
+		for (int i = 1; i < hLen-nLen+1; i++) {
+			System.out.println(hArr[i+nLen-1]+","+hArr[i-1]);
+			hHash=(hHash+hArr[i+nLen-1])*PRIME%HASHSIZE-hArr[i-1]*base%HASHSIZE;
+			System.out.println(hHash);
+			if (hHash<0) {
+				hHash+=HASHSIZE;
+			}
+			if (hHash==nHash&&compare(hArr, nArr, i, 0)) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+	
+	
+	public static boolean compare(char[] hArr,char[] nArr,int i,int j) {
+		
+		while(i<hArr.length&&j<nArr.length) {
+			if (hArr[i]!=nArr[j]) {
+				return false;
+			}
+			i++;
+			j++;
+		}
+		return true;
+	}
+	
 	
 	/**
 	 * 1071. 字符串的最大公因子
