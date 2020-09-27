@@ -5,11 +5,17 @@ public class Match {
 	public static void main(String[] args) {
 //		System.out.println(gcd(4,8));;
 		
-		String hayString="mississippi";
-		String llString="issi";
+		String hayString="aaaaaaaaaaaaaaaaaaa" ;
+		String llString="aaaaaaaaaaaa";
+		
+		
+//		String hayString="hello";
+//		String llString="ll";
 		System.out.println(hayString.indexOf(llString));
-		System.out.println((int)'i');
-		System.out.println((int)'s');
+//		System.out.println((int)'a');
+//		System.out.println((int)'b');
+//		System.out.println((int)'c');
+//		System.out.println((int)'o');
 		System.out.println(strStr4(hayString, llString));
 	}
 	
@@ -95,7 +101,7 @@ public class Match {
 	 * @return
 	 */
 	
-	private static final int HASHSIZE=100000019;
+	private static final int HASHSIZE=Integer.MAX_VALUE;
 	private static final int PRIME=31;
 	
 	public static int strStr3(String haystack, String needle) {
@@ -145,27 +151,38 @@ public class Match {
 		int nHash=0;
 		int hHash=0;
 		for (int i = 0; i < nLen; i++) {
-			nHash=(nHash+nArr[i])*PRIME%HASHSIZE;
-			hHash=(hHash+hArr[i])*PRIME%HASHSIZE;
+			nHash=(nHash*PRIME+nArr[i])%HASHSIZE;
+			hHash=(hHash*PRIME+hArr[i])%HASHSIZE;
 			
 		}
-		System.out.println(nHash);
+		
+//		System.out.println(nHash);
+//		System.out.println(hHash);
+		
+//		if (nHash<0) {
+//			nHash=(nHash%HASHSIZE+HASHSIZE)%HASHSIZE;
+//		}
+//		if (hHash<0) {
+//			hHash=(hHash%HASHSIZE+HASHSIZE)%HASHSIZE;
+//		}
+		
 		if (hHash==nHash&&compare(hArr, nArr, 0, 0)) {
 			return 0;
 		}
 		//计算Math.pow(PRIME, nLen)
 		int base=1;
-		for (int i = 0; i <= nLen; i++) {
-			base*=PRIME;
+		
+		for (int i = 0; i < nLen; i++) {
+			base=(base*PRIME)%HASHSIZE;
 		}
 		
 		for (int i = 1; i < hLen-nLen+1; i++) {
-			System.out.println(hArr[i+nLen-1]+","+hArr[i-1]);
-			hHash=(hHash+hArr[i+nLen-1])*PRIME%HASHSIZE-hArr[i-1]*base%HASHSIZE;
-			System.out.println(hHash);
-			if (hHash<0) {
-				hHash+=HASHSIZE;
-			}
+//			System.out.println(hArr[i+nLen-1]+","+hArr[i-1]);
+			hHash=(hHash*PRIME+hArr[i+nLen-1]-hArr[i-1]*base)%HASHSIZE;
+//			System.out.println(hHash);
+//			if (hHash<0) {
+//				hHash=(hHash%HASHSIZE+HASHSIZE)%HASHSIZE;
+//			}
 			if (hHash==nHash&&compare(hArr, nArr, i, 0)) {
 				return i;
 			}
@@ -173,6 +190,7 @@ public class Match {
 		
 		return -1;
 	}
+	
 	
 	
 	public static boolean compare(char[] hArr,char[] nArr,int i,int j) {

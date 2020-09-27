@@ -4,9 +4,9 @@ public class Palindrome {
 
 	public static void main(String[] args) {
 		
-		String string=" ";
+		String string="abc";
 		
-		System.out.println(isPalindrome(string));;
+		System.out.println(validPalindrome(string));;
 	}
 
 	/**
@@ -28,16 +28,18 @@ public class Palindrome {
 		int left=0;
 		int right=s.length()-1;
 		
-		while(left<=right) {
+		//双指针
+		//由于要验证的是回文串，所以left不需要等于right，因为等于的时候肯定是回文串
+		while(left<right) {
 			//不能用if，因为可能连续好几个字符都不是字母和数字
 			//同时由于left和right都在做加减操作，所以必须要小心是否越界
-			while (left<=right&&!check(s.charAt(left))) {
+			while (left<right&&!check(s.charAt(left))) {
 				left++;
 			}
-			while (left<=right&&!check(s.charAt(right))) {
+			while (left<right&&!check(s.charAt(right))) {
 				right--;
 			}
-			if (left<=right&&s.charAt(left)!=s.charAt(right)) {
+			if (left<right&&s.charAt(left)!=s.charAt(right)) {
 				return false;
 			}
 			left++;
@@ -57,5 +59,41 @@ public class Palindrome {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 680. 验证回文字符串 Ⅱ
+	 * 给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。
+	 * 左右双指针，遇到不相等的，判断去掉其中一个字符后，剩下的是不是相等，有点像求最长回文子串时候的情况
+	 * @param s
+	 * @return
+	 */
+	public static boolean validPalindrome(String s) {
+		if (s==null) {
+			return false;
+		}
+		if (s.equals("")) {
+			return true;
+		}
+		
+		int left=0;
+		int right=s.length()-1;
+		
+		return validPalindrome(s, left, right);
+		
+		
+    }
+	
+	public static boolean validPalindrome(String s,int left,int right) {
+		while(left<right) {
+			if (s.charAt(left)!=s.charAt(right)) {
+				break;
+			}
+			left++;
+			right--;
+		}
+		boolean a=validPalindrome(s, left+1, right);
+		boolean b=validPalindrome(s, left, right-1);
+		
 	}
 }
