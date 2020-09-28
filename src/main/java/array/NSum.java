@@ -3,15 +3,16 @@ package array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 public class NSum {
 	public static void main(String[] args) {
-		int[] nums= {-1,0,1,2,-1,-4};
-		System.out.println(Arrays.toString(twoSum(nums, 9)));;
+		int[] nums= {-1,0,1};
+		System.out.println(twoSum5(nums, 0));;
 		
 		
-		System.out.println(threeSum3(nums));
+//		System.out.println(threeSum3(nums));
 	}
 	
 	/**
@@ -20,6 +21,10 @@ public class NSum {
 
 		你可以假设每种输入只会对应一个答案。但是，数组中同一个元素不能使用两遍。
 
+		由于要返回下标，所以用哈希的方法更好，否则可以先对数组进行排序，再用双指针
+		判断nums[left]+nums[right]>target，那么说明需要right--，因为nums[right]加上最小值还要比target大，所以right下标
+		的值肯定是不符合要求的，
+		
 	 * @param nums
 	 * @param target
 	 * @return
@@ -28,6 +33,7 @@ public class NSum {
         HashMap<Integer, Integer> map=new HashMap<Integer, Integer>();
         for (int i = 0; i < nums.length; i++) {
         	//遍历到后边的时候，如果有值等于target-nums[i]，那肯定已经在map中了
+        	//否则就是还没有遍历到，继续遍历即可
 			if (map.get(target-nums[i])==null) {
 				map.put(nums[i], i);
 			}else {
@@ -36,7 +42,63 @@ public class NSum {
 		}
         return null;
     }
+	
+	/**
+	 * lintcode 609. 两数和-小于或等于目标值
+	 * 给定一个整数数组，找出这个数组中有多少对的和是小于或等于目标值。返回对数
+	 * @param nums
+	 * @param target
+	 * @return
+	 */
+	public static int twoSum5(int[] nums, int target) {
+        if (nums==null||nums.length<2) {
+			return 0;
+		}
+        
+		Arrays.sort(nums);
+		
+		int count=0;
+		
+		for (int i = 0; i < nums.length; i++) {
+			for (int j = nums.length-1; j >i; j--) {
+				if (nums[i]+nums[j]<=target) {
+					count++;
+				}
+			}
+		}
+		
+		return count;
+    }
 
+	/**
+	 * 
+	 * @param nums
+	 * @param target
+	 * @return
+	 */
+	public static int twoSum52(int[] nums, int target) {
+		
+		if (nums==null||nums.length<2) {
+			return 0;
+		}
+        
+		Arrays.sort(nums);
+		
+		int count=0;
+		
+		int left=0;
+		int right=nums.length-1;
+		while(left<right) {
+			while (left<right&&nums[left]+nums[right]>target) {
+				right--;
+			}
+			count+=right-left;
+			left++;
+		}
+		
+		
+		return count;
+	}
 	/**
 	 * 15. 三数之和
 	 * 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，

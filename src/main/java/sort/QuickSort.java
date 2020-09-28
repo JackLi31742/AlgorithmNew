@@ -39,6 +39,8 @@ public class QuickSort {
 		//一轮排序
 		while(left<right){
 			//判断时，必须要有等号，是arr中如果有两个相等的值，必须有等号，才会进入while循环，走指针
+			//最后才有可能退出最外边的while循环
+			//同时也避免了如果有很多等于pivot的数，这些数由于没有等号，被划在了一边，导致partition不均匀
 			while(left<right&&arr[right]>=pivot){
 				right--;
 			}

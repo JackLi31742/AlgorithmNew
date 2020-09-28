@@ -79,12 +79,24 @@ public class Palindrome {
 		int left=0;
 		int right=s.length()-1;
 		
-		return validPalindrome(s, left, right);
+		int[] temp=validPalindrome(s, left, right);
 		
+		if (check(temp)) {
+			return true;
+		}
+		int[] result=validPalindrome(s, temp[0]+1, temp[1]);
+		if (check(result)) {
+			return true;
+		}
+		result=validPalindrome(s, temp[0], temp[1]-1);
 		
+		if (check(result)) {
+			return true;
+		}
+		return false;
     }
 	
-	public static boolean validPalindrome(String s,int left,int right) {
+	public static int[] validPalindrome(String s,int left,int right) {
 		while(left<right) {
 			if (s.charAt(left)!=s.charAt(right)) {
 				break;
@@ -92,8 +104,14 @@ public class Palindrome {
 			left++;
 			right--;
 		}
-		boolean a=validPalindrome(s, left+1, right);
-		boolean b=validPalindrome(s, left, right-1);
 		
+		return new int[]{left,right};
+	}
+	
+	public static boolean check(int[] result) {
+		if (result[0]>=result[1]) {
+			return true;
+		}
+		return false;
 	}
 }

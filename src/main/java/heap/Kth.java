@@ -112,6 +112,7 @@ public class Kth {
 	
 	/**
 	 * 快排思想
+	 * 快速选择算法
 	 * @param arr
 	 * @param k
 	 * @return
@@ -329,4 +330,14 @@ public class Kth {
 		return result;
 		
 	}
+	
+	/**
+	 * 378. 有序矩阵中第K小的元素
+	 * @param matrix
+	 * @param k
+	 * @return
+	 */
+	public int kthSmallest(int[][] matrix, int k) {
+
+    }
 }
