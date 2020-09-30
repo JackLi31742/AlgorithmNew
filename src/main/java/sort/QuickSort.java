@@ -3,14 +3,14 @@ package sort;
 import java.util.Arrays;
 /**
  * 912. 排序数组
- * @author LANG
+ * https://mp.weixin.qq.com/s/PQLC7qFjb74kt6PdExP8mw
  *
  */
 public class QuickSort {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int[]arr={5,1,1,2,0,0};
+		int[]arr={5,2,3,1};
 		sort(arr);
 		System.out.println(Arrays.toString(arr));
 		System.out.println("swipCount:"+swipCount);
@@ -21,11 +21,12 @@ public class QuickSort {
 	static int compareCount=0;
 	
 	public static int[] sort(int[]nums) {
-		if (nums==null||nums.length==0||nums.length==1) {
+		if (nums==null||nums.length<2) {
 			return nums;
 		}
-		return sort2(nums,0,nums.length-1);
+		sort6(nums,0,nums.length-1);
 		
+		return nums;
 	}
 	
 	public static int[] sort(int[]arr,int start,int end){
@@ -169,6 +170,94 @@ public class QuickSort {
 			}
 			swip(arr, left, right);
 		}
+		return left;
+	}
+	
+	/**
+	 * 交换指针法
+	 * @param arr
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public static void sort5(int[]arr,int start,int end) {
+		if (start>=end) {
+			return;
+		}
+		int left=start;
+		int right=end;
+		int index=start+(end-start)/2;
+		int pivot=arr[index];
+		
+		while(left<=right) {
+			
+			while(left<=right&&arr[right]>pivot) {
+				right--;
+			}
+			
+			while(left<=right&&arr[left]<pivot) {
+				left++;
+			}
+			
+			if (left<=right) {
+				swip(arr,left,right);
+				//由于已经比较了当前的，所以直接移动指针比较下一个
+				left++;
+				right--;
+			}
+		}
+		
+		//由于选取的是中点，所以不需要进行出循环后再次交换
+//		swip(arr, index, left);
+		
+		sort5(arr, left, end);
+		
+		sort5(arr, start, right);
+	}
+	
+	/**
+	 * 交换指针法 partition
+	 * @param arr
+	 * @param start
+	 * @param end
+	 */
+	public static void sort6(int[]arr,int start,int end) {
+		
+		if (start>=end) {
+			return;
+		}
+		
+		int partiton=partition2(arr, start, end);
+		
+		sort6(arr, start, partiton-1);
+		sort6(arr, partiton, end);
+	}
+	
+	public static int partition2(int[]arr,int start,int end) {
+		
+		int left=start;
+		int right=end;
+		int index=start+(end-start)/2;
+		int pivot=arr[index];
+		
+		while(left<=right) {
+			
+			while(left<=right&&arr[right]>pivot) {
+				right--;
+			}
+			
+			while(left<=right&&arr[left]<pivot) {
+				left++;
+			}
+			
+			if (left<=right) {
+				swip(arr,left,right);
+				//由于已经比较了当前的，所以直接移动指针比较下一个
+				left++;
+				right--;
+			}
+		}
+		
 		return left;
 	}
 	
