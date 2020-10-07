@@ -3,6 +3,7 @@ package bfs;
 import java.util.LinkedList;
 import java.util.Queue;
 
+
 /**
  * 如果求最短路径和以及有几条路线，用dp
 	和递归中骑士周游问题很像
@@ -10,6 +11,19 @@ import java.util.Queue;
  *
  */
 public class MinPath {
+	
+	public static void main(String[] args) {
+		boolean[][] b= {
+					{false,false,false},
+					{false,false,false},
+					{false,false,false}
+				
+				};
+		
+		Point source=new Point(2,0);
+		Point destination=new Point(2,2);
+		shortestPath(b, source, destination);
+	}
 
 	/**
 	 * 611. 骑士的最短路线
@@ -36,7 +50,7 @@ public class MinPath {
 	 * @param destination
 	 * @return
 	 */
-	public int shortestPath(boolean[][] grid, Point source, Point destination) {
+	public static int shortestPath(boolean[][] grid, Point source, Point destination) {
         // write your code here
 		
 		if (grid==null||grid.length==0||grid[0].length==0) {
@@ -48,14 +62,66 @@ public class MinPath {
 		int row=grid.length;
 		int col=grid[0].length;
 		
-		boolean[] visited=new boolean[row];
+		//和图不一样，图中的矩阵中的坐标是边，这里的矩阵每个坐标都是点
+//		boolean[][] visited=new boolean[row][col];
 		
-		int[]x= {1,1,-1,-1,2,2,-2,-2};
-		int[]y= {2,-2,2,-2,1,-1,1,-1};
+		int[] xArr= {1,1,-1,-1,2,2,-2,-2};
+		int[] yArr= {2,-2,2,-2,1,-1,1,-1};
 		
+		int count=0;
 		
+		queue.add(source);
+		
+			
+		while(!queue.isEmpty()) {
+		
+			//由于每一层count加1，所以需要遍历每一层，所以用size，
+			//而不是每一个节点poll出来的时候加1
+			int size=queue.size();
+			for (int i = 0; i < size; i++) {
+				
+				Point point=queue.poll();
+				
+				if (point.x==destination.x&&point.y==destination.y) {
+					return count;
+				}
+//				int x=point.x;
+//				int y=point.y;
+				//在这里设置容易超时，需要在加入queue的时候就设置
+//				grid[point.x][point.y]=true;
+				
+				for (int j = 0; j < 8; j++) {
+					
+//					int nextX=point.x+xArr[j];
+//					int nextY=point.x+yArr[j];
+					Point temp = new Point(point.x+xArr[j],point.y+yArr[j]);
+					
+//					if (temp.x==destination.x&&temp.y==destination.y) {
+//						return count+1;
+//					}
+					
+					if (check(temp, grid, row, col)) {
+						
+						queue.add(temp);
+						grid[temp.x][temp.y]=true;
+					}
+				}
+			}
+			
+			count++;
+		}
+		
+		return -1;
     }
 	
+	
+	public static boolean check(Point p,boolean[][]grid,int row,int col) {
+		if (p.x>=0&&p.x<row&&p.y>=0&&p.y<col&&!grid[p.x][p.y]) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	
 	/**
 	 * 630. 骑士的最短路径II
@@ -75,7 +141,59 @@ public class MinPath {
 	 */
 	public int shortestPath2(boolean[][] grid) {
         // write your code here
+		
+		if (grid==null || grid.length==0 ||grid[0].length==0) {
+			return -1;
+		}
+		
+		int n=grid.length;
+		int m=grid[0].length;
+		
+		int[] xArr= {1,-1,2,-2};
+		int[] yArr= {2,2,1,1};
+		int count=0;
+		
+		Queue<int[]> queue=new LinkedList<int[]>();
+		
+		queue.add(new int[] {0,0});
+		
+		while(!queue.isEmpty()) {
+			
+			int size=queue.size();
+			
+			for (int i = 0; i < size; i++) {
+				
+				int[] point=queue.poll();
+				
+				if (point[0]==n-1&&point[1]==m-1) {
+					return count;
+				}
+				
+				for (int j = 0; j < 4; j++) {
+					int nextX=point[0]+xArr[j];
+					int nextY=point[1]+yArr[j];
+					
+					if (check(nextX,nextY, grid, n, m)) {
+						queue.add(new int[] {nextX,nextY});
+						grid[nextX][nextY]=true;
+					}
+				}
+				
+			}
+			count++;
+		}
+		
+		return -1;
     }
+	
+	
+	public boolean check(int x ,int y,boolean[][]grid,int row,int col) {
+		if (x>=0&&x<row&&y>=0&&y<col&&!grid[x][y]) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }
 
 
@@ -92,4 +210,12 @@ class Point {
 		x = a;
 		y = b;
 	}
+
+	@Override
+	public String toString() {
+		return "Point [x=" + x + ", y=" + y + "]";
+	}
+	
+	
+	
 }
