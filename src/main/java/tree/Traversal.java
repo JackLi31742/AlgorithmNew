@@ -43,7 +43,7 @@ public class Traversal {
 		
 	}
 	
-	//迭代需要借助栈
+	//非递归需要借助栈
 	public static List<Integer> preorderTraversal2(TreeNode root) {
 
 		List<Integer> result=new ArrayList<Integer>();
@@ -128,7 +128,7 @@ public class Traversal {
 		return result;
 	}
 	
-	//迭代
+	//非递归
 	public static List<Integer> inorderTraversal2(TreeNode root) {
 		
 		List<Integer> result = new ArrayList<Integer>();
@@ -137,6 +137,7 @@ public class Traversal {
 		}
 
 		TreeNode cur = root;
+		//从根节点到当前节点的路径
 		Stack<TreeNode> stack = new Stack<TreeNode>();
 
 		while (cur != null || !stack.isEmpty()) {
@@ -148,6 +149,8 @@ public class Traversal {
 			result.add(node.val);
 
 			cur = node.right;
+			//有右子树，所以找到右子树的最小值
+			//没有右子树，下一个节点就是它的父节点，即栈里的顶点
 			while (cur != null) {
 				stack.push(cur);
 				cur = cur.left;
@@ -208,7 +211,7 @@ public class Traversal {
 		return result;
 	}
 	
-	//迭代
+	//非递归
 	public static  List<Integer> postorderTraversal2(TreeNode root) {
 		List<Integer> result=new ArrayList<Integer>();
 		if (root==null) {
