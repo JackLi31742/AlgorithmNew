@@ -1,7 +1,9 @@
 package divideconquer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 public class CountInversions {
 	
@@ -183,5 +185,94 @@ public class CountInversions {
 			left++;
 		}
 		
+	}
+	
+	
+	
+	/**
+	 * lintcode 分块检索
+      249. 统计前面比自己小的数的个数
+		给定一个整数数组（下标由 0 到 n-1， n 表示数组的规模，取值范围由 0 到10000）。
+		对于数组中的每个 i 元素，请计算 i 前的数中比它小的元素的数量。
+	 * @param A
+	 * @return
+	 */
+	public List<Integer> countOfSmallerNumberII(int[] A) {
+        // write your code here
+		
+		BlockArray blockArray=new BlockArray(10000);
+		
+		List<Integer> result=new ArrayList<>();
+		
+		for (int i = 0; i < A.length; i++) {
+			result.add(blockArray.countSmaller(A[i]));
+			blockArray.insert(A[i]);
+		}
+		
+		return result;
+    }
+	
+	
+	
+}
+
+class Block{
+	//每个block中的总数
+	int total;
+	//每个数字的数量
+	HashMap<Integer, Integer> map;
+	public Block() {
+		super();
+		this.total = 0;
+		this.map = new HashMap<>();
+	}
+	
+}
+
+class BlockArray{
+	
+	//块的下标是0到Math.sqrt(range)
+	//所有块内的元素都是从小到大排列
+	Block[] blocks;
+
+	int num;
+	public BlockArray(int range) {
+		super();
+		num=(int)Math.sqrt(range)+1;
+		this.blocks = new Block[num];
+		
+		for (int i = 0; i < blocks.length; i++) {
+			blocks[i]=new Block();
+		}
+	}
+	
+	
+	public void insert(int n) {
+		//计算下标用除法，不是用模
+		int index=n/num;
+		blocks[index].total+=1;
+		HashMap<Integer, Integer> map=blocks[index].map;
+		
+		map.put(n, map.getOrDefault(n, 0)+1);
+	}
+	
+	//由于是从前到后将数组中的数插入到block数组总，
+	//所以可以直接统计map中的数量，因为后边的值还没有插入
+	public int countSmaller(int n) {
+		
+		int index=n/num;
+		int total=0;
+		for (int i = 0; i < index; i++) {
+			total+=blocks[i].total;
+		}
+		HashMap<Integer, Integer> map=blocks[index].map;
+			
+		for (Entry<Integer, Integer> entry : map.entrySet()) {
+			if (entry.getKey()<n) {
+				total+=entry.getValue();
+			}
+		}
+		
+		return total;
 	}
 }

@@ -1,7 +1,9 @@
-package tree;
+package dfs;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tree.TreeNode;
 
 public class PathSum {
 

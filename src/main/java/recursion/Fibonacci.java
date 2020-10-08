@@ -1,15 +1,18 @@
 package recursion;
 
-import javafx.geometry.HorizontalDirection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fibonacci {
 
 	public static void main(String[] args) {
 		int n=46;
 //		System.out.println(fib(n));
-		System.out.println(fib2(n));;
+//		System.out.println(fib2(n));;
+//		
+//		System.out.println(numWays(n));
 		
-		System.out.println(numWays(n));
+		gcd(10, 15);
 	}
 	
 	/**
@@ -180,4 +183,97 @@ public class Fibonacci {
 		boolean flag=n<=0||(n+=sumNums(n-1))<0;
 		return n;
 	}
+	
+	
+	/**
+	 * lintcode 140. 快速幂
+	 * 计算a ^ n % b 其中a，b和n都是32位的非负整数。
+	 * 
+	 * (a^n) % p = ((a % p)^n) % p 
+	 * 但是这样依然是O(n)
+	 * 
+	 * a^n=(a^(n/2))^2 就可以达到O(logn)
+	 * 
+	 * fastPower的返回值定义为a^n，也就是Math.pow，在求幂运算
+	 * @param a
+	 * @param b
+	 * @param n
+	 * @return
+	 */
+	public int fastPower(int a, int b, int n) {
+        // write your code here
+		
+		if (n==0) {
+			return 1%b;
+		}
+		if (n==1) {
+			return a%b;
+		}
+		
+		long result=fastPower(a, b, n/2);
+		result=(result*result)%b;
+		//如果n是奇数,Java中除法是向下取整，
+		if (n%2==1) {
+			result=(result*a)%b;
+		}
+		
+		return (int)result;
+    }
+	
+	/**
+	 * lintcode 845. 最大公约数
+	 * @param a
+	 * @param b
+	 * @return
+	 */
+	public static int gcd(int a, int b) {
+        // write your code here
+		if (a<b) {
+			return gcd(b, a);
+		}
+		
+		if (b==0) {
+			return a;
+		}
+		
+		int c=0;
+		while(b>0) {
+			
+			c=a%b;
+			a=b;
+			b=c;
+		}
+		
+		return a;
+    }
+	
+	
+	/**
+	 * 235. 分解质因数
+	 * 将一个整数分解为若干质因数之乘积。
+	 * 质因数也就是质数
+	 * @param num
+	 * @return
+	 */
+	public List<Integer> primeFactorization(int num) {
+        // write your code here
+		List<Integer> result=new ArrayList<Integer>();
+		//上边界
+		int up=(int)Math.sqrt(num);
+		
+		for (int i = 2; i <= up&&num>1; i++) {
+			
+			while(num%i==0) {
+				num=num/i;
+				result.add(i);
+			}
+		}
+		
+		if (num>1) {
+			result.add(num);
+		}
+		
+		return result;
+    }
+	
 }

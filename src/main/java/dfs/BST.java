@@ -1,8 +1,10 @@
-package tree;
+package dfs;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
+import tree.TreeNode;
 
 public class BST {
 	
@@ -87,4 +89,33 @@ public class BST {
 		
 		return true;
 	}
+	
+	/**
+	 * lintcode 900. 二叉搜索树中最接近的值
+	 * 给一棵非空二叉搜索树以及一个target值，找到在BST中最接近给定值的节点值
+	 * 给出的目标值为浮点数
+		我们可以保证只有唯一一个最接近给定值的节点
+	 * @param root
+	 * @param target
+	 * @return
+	 */
+	public int closestValue(TreeNode root, double target) {
+        // write your code here
+    }
+	
+	/**
+	 * lintcode 901. 二叉搜索树中最接近的值 II
+	给定一棵非空二叉搜索树以及一个target值，找到 BST 中最接近给定值的 k 个数。
+	
+		给出的target值为浮点数
+		你可以假设 k 总是合理的，即 k ≤ 总节点数
+		我们可以保证给出的 BST 中只有唯一一个最接近给定值的 k 个值的集合
+	 * @param root
+	 * @param target
+	 * @param k
+	 * @return
+	 */
+	public List<Integer> closestKValues(TreeNode root, double target, int k) {
+        // write your code here
+    }
 }

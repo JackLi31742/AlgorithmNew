@@ -1,4 +1,4 @@
-package tree;
+package dfs;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
+
+import tree.Node;
+import tree.TreeNode;
 
 public class Traversal {
 
