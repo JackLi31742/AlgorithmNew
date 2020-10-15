@@ -19,6 +19,7 @@ public class SortColors {
 
 		此题中，我们使用整数 0、 1 和 2 分别表示红色、白色和蓝色。
 
+		两次partition，快速选择算法
 
 	 * @param nums
 	 */

@@ -99,6 +99,8 @@ public class NSum {
 		
 		return count;
 	}
+	
+	
 	/**
 	 * 15. 三数之和
 	 * 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，
@@ -168,6 +170,8 @@ public class NSum {
 		
 		Arrays.sort(nums);
 		for (int i = 0; i < nums.length; i++) {
+			//if(i!=0&&nums[i]==nums[i-1])
+//				continue
 			if (i==0||nums[i]>nums[i-1]) {
 				//
 				int j=i+1;
@@ -235,5 +239,33 @@ public class NSum {
 		return result;
 	}
 	
+	/**
+	 * lintcode 382. 三角形计数
+	 * 给定一个整数数组，在该数组中，寻找三个数，分别代表三角形三条边的长度，问，可以寻找到多少组这样的三个数来组成三角形？
+	 * 
+	 * a<=b<=c充要条件
+	 * a+b>c
+	 * @param S
+	 * @return
+	 */
+	public int triangleCount(int[] S) {
+        // write your code here
+    }
 	
+	/**
+	 * lintcode 976. 4数和 II
+	 * 给出 A, B, C, D 四个整数列表，
+	 * 计算有多少的tuple (i, j, k, l)满足A[i] + B[j] + C[k] + D[l]为 0。
+
+	为了简化问题，A, B, C, D 具有相同的长度，且长度N满足 0 ≤ N ≤ 500。
+	所有的整数都在范围(-2^28, 2^28 - 1)内以及保证结果最多为2^31 - 1
+	 * @param A
+	 * @param B
+	 * @param C
+	 * @param D
+	 * @return
+	 */
+	 public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+	        // Write your code here
+	    }
 }
