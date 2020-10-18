@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+/**
+ * 简单图最短路径
+ 	没有层次，因为没有绝对的前后，所以不能用dp
+ *
+ */
 public class LadderLength {
 
 	
@@ -48,6 +53,8 @@ public class LadderLength {
 		
 		把start当成一个点，end当成一个点，start的每个字符当成每一层，没走一层，
 		看这一层在不在dict中，如果在，就以这个点继续找，所以是BFS
+		
+		可以把最后的end加入到map中，这样，减少了逻辑处理，同时count可以初始化为1
 	 * @param start
 	 * @param end
 	 * @param dict
