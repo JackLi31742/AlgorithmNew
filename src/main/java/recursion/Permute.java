@@ -124,4 +124,46 @@ public class Permute {
 			}
 		}
 	}
+	
+	
+	
+	/**
+	 * 52. 下一个排列
+	 * 给定一个整数数组来表示排列，找出其之后的一个排列。
+	 */
+	public int[] nextPermutation(int[] nums) {
+        // write your code here
+    }
+	
+	/**
+	 * 190. 下一个排列
+
+	给定一个若干整数的排列，给出按正数大小进行字典序从小到大排序后的下一个排列。
+
+	如果没有下一个排列，则输出字典序最小的序列
+	 * @param nums
+	 */
+	public void nextPermutation(int[] nums) {
+        // write your code here
+    }
+	
+	/**
+	 * 15. 全排列
+		给定一个数字列表，返回其所有可能的排列。
+	 * @param nums
+	 * @return
+	 */
+	public List<List<Integer>> permute(int[] nums) {
+        // write your code here
+    }
+	
+	/**
+	 * 197. 排列序号
+	 * 给出一个不含重复数字的排列，求这些数字的所有排列按字典序排序后该排列的编号。其中，编号从1开始。
+	 * @param A
+	 * @return
+	 */
+	public long permutationIndex(int[] A) {
+        // write your code here
+    }
 }

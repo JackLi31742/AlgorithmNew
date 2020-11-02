@@ -6,8 +6,8 @@ package tree;
  */
 public class Node {
 
-	TreeNode treeNode;
-	boolean flag;
+	public TreeNode treeNode;
+	public boolean flag;
 	
 	public Node(TreeNode treeNode, boolean flag) {
 		super();

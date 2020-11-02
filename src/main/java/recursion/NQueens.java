@@ -39,7 +39,7 @@ public class NQueens {
 	
 	/**
 	 * 52. N皇后 II
-	 * 
+	 * 不用dp，用的是dfs
 	 * 给定一个整数 n，返回 n 皇后不同的解决方案的数量
 	 */
 	public int totalNQueens(int n) {
