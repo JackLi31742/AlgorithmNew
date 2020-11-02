@@ -9,19 +9,24 @@ import tree.TreeNode;
 public class BST {
 	
 	public static void main(String[] args) {
-		TreeNode node1=new TreeNode(10);
-		TreeNode node2=new TreeNode(5);
-		TreeNode node3=new TreeNode(15);
-		TreeNode node4=new TreeNode(6);
-		TreeNode node5=new TreeNode(20);
+		TreeNode node1=new TreeNode(2);
+		TreeNode node2=new TreeNode(1);
+		TreeNode node3=new TreeNode(9);
+		TreeNode node4=new TreeNode(2);
+		TreeNode node5=new TreeNode(8);
+		TreeNode node6=new TreeNode(10);
 		
 		node1.left=node2;
-		node1.right=node3;
-		node3.left=node4;
-		node3.right=node5;
+//		node1.right=node3;
+//		node2.left=node4;
+//		node3.left=node5;
+//		node3.right=node6;
 		
 		
-		System.out.println(isValidBST(node1));;
+//		System.out.println(isValidBST(node1));;
+		
+		BST bst=new BST();
+		System.out.println(bst.closestValue(node1, 2147483647.0));;
 	}
 	
 	
@@ -101,8 +106,85 @@ public class BST {
 	 */
 	public int closestValue(TreeNode root, double target) {
         // write your code here
+		List<Integer> list=getInOrderList(root);
+		
+		
+		int index = findIndex(list, target);
+		
+		//先讨论特殊情况
+		if (index==list.size()) {
+			
+			return list.get(list.size()-1);
+		}
+		
+		if (index==0) {
+			return list.get(index);
+		}
+		
+		
+			
+		double d1=target-list.get(index-1);
+		double d2=list.get(index)-target;
+//			double d3=list.get(index+1)-target;
+		
+		return d1>d2?list.get(index):list.get(index-1);
+		
+		
+		
     }
 	
+	//得到中序遍历结果
+	public List<Integer> getInOrderList(TreeNode root){
+		
+		List<Integer> list=new ArrayList<>();
+		if (root==null) {
+			return list;
+		}
+		
+		Stack<TreeNode> stack=new Stack<>();
+		
+		TreeNode curNode=root;
+		
+		while(curNode!=null||!stack.isEmpty()) {
+			if(curNode!=null) {
+				stack.push(curNode);
+				curNode=curNode.left;
+			}else {
+				
+				TreeNode node=stack.pop();
+				list.add(node.val);
+				
+				curNode=node.right;
+			}
+			
+			
+		}
+		
+		return list;
+	}
+	
+	//找到插入的位置
+	public int findIndex(List<Integer> list,double target) {
+		
+		int left=0; 
+		int right=list.size()-1;
+		
+		while(left <= right) {
+			int mid=left+(right-left)/2;
+			
+			if (list.get(mid)==target) {
+				return mid;
+			}else if (list.get(mid)<target) {
+				left=mid+1;
+			}else {
+				right=mid-1;
+			}
+			
+		}
+		
+		//结果偏右
+		return left;
+	}
 	/**
 	 * lintcode 901. 二叉搜索树中最接近的值 II
 	给定一棵非空二叉搜索树以及一个target值，找到 BST 中最接近给定值的 k 个数。
@@ -117,5 +199,64 @@ public class BST {
 	 */
 	public List<Integer> closestKValues(TreeNode root, double target, int k) {
         // write your code here
+		
+		
+		List<Integer> list=getInOrderList(root);
+		
+		if (k>=list.size()) {
+			return list;
+		}
+		
+		List<Integer> result=new ArrayList<>();
+		
+		if (k<=0) {
+			return result;
+		}
+		
+		int index = findIndex(list, target);
+		
+		/**
+		 * 类似合并两个有序数组
+		 */
+		int count=0;
+		
+		int len=list.size();
+		
+		int left=0,right=0;
+		
+		while(count<k&&left<index&&right<(len-index)) {
+			
+			double a=target-list.get(index-1-left);
+			
+			double b=list.get(index+right)-target;
+			
+			if (a<b) {
+				result.add(list.get(index-1-left));
+				left++;
+			}else {
+				result.add(list.get(index+right));
+				right++;
+			}
+			
+			count++;
+		}
+		
+		if (count<k) {
+			
+			while(count<k&&left<index) {
+				result.add(list.get(index-1-left));
+				left++;
+				count++;
+			}
+			
+			while(count<k&&right<(len-index)) {
+				result.add(list.get(index+right));
+				right++;
+				count++;
+			}
+		}
+		
+		
+		return result;
     }
 }

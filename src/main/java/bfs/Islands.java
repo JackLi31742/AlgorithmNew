@@ -3,6 +3,10 @@ package bfs;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * dfs容易Stack Overflow
+ *
+ */
 public class Islands {
 	
 	public static void main(String[] args) {
