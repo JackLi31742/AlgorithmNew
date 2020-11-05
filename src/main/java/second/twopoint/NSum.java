@@ -1,4 +1,4 @@
-package array;
+package second.twopoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,7 +107,8 @@ public class NSum {
 	 * 使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
 
 
-	我们枚举的三元组 (a,b,c) 满足 a≤b≤c，保证了只有 (a, b, c) 这个顺序会被枚举到，而 (b,a,c)、(c,b,a) 等等这些不会，这样就减少了重复。
+	我们枚举的三元组 (a,b,c) 满足 a≤b≤c，保证了只有 (a, b, c) 这个顺序会被枚举到，
+	 而 (b,a,c)、(c,b,a) 等等这些不会，这样就减少了重复。
 
 	同时，对于每一重循环而言，相邻两次枚举的元素不能相同，否则也会造成重复。
 	 * @param nums
@@ -242,9 +243,10 @@ public class NSum {
 	/**
 	 * lintcode 382. 三角形计数
 	 * 给定一个整数数组，在该数组中，寻找三个数，分别代表三角形三条边的长度，问，可以寻找到多少组这样的三个数来组成三角形？
-	 * 
+	 * 排序后，
 	 * a<=b<=c充要条件
 	 * a+b>c
+	 * 同时如果a+b>c，那么(a到b之间的数)+b>c
 	 * @param S
 	 * @return
 	 */
@@ -253,12 +255,28 @@ public class NSum {
     }
 	
 	/**
+	 * 58. 四数之和
+	给一个包含n个数的整数数组S，在S中找到所有使得和为给定整数target的四元组(a, b, c, d)。
+	四元组(a, b, c, d)中，需要满足a <= b <= c <= d
+
+答案中不可以包含重复的四元组。
+	 * @param numbers
+	 * @param target
+	 * @return
+	 */
+	public List<List<Integer>> fourSum(int[] numbers, int target) {
+        // write your code here
+    }
+	/**
 	 * lintcode 976. 4数和 II
 	 * 给出 A, B, C, D 四个整数列表，
 	 * 计算有多少的tuple (i, j, k, l)满足A[i] + B[j] + C[k] + D[l]为 0。
 
 	为了简化问题，A, B, C, D 具有相同的长度，且长度N满足 0 ≤ N ≤ 500。
 	所有的整数都在范围(-2^28, 2^28 - 1)内以及保证结果最多为2^31 - 1
+	
+	
+	分成两组，A和B，C和D，分别记录两组的和以及对应的个数，用hashmap保存，然后加起来
 	 * @param A
 	 * @param B
 	 * @param C

@@ -1,4 +1,4 @@
-package divideconquer;
+package second.twopoint;
 
 import java.util.Arrays;
 
@@ -23,6 +23,8 @@ public class SortColors {
 
 	 * @param nums
 	 */
+	
+	//这不是两次partition
 	public static void sortColors(int[] nums) {
 
 		//代表0的右边界
