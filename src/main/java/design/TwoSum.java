@@ -1,6 +1,8 @@
 package design;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * lintcode 607. 两数之和 III-数据结构设计
@@ -19,13 +21,20 @@ import java.util.HashMap;
  */
 public class TwoSum {
 
-	HashMap<Integer, Integer>
+	HashMap<Integer, Integer> map;
+	
+	public TwoSum() {
+		map = new HashMap<Integer, Integer>();
+	}
 	 /**
      * @param number: An integer
      * @return: nothing
      */
     public void add(int number) {
         // write your code here
+    	
+    	map.put(number, map.getOrDefault(number, 0)+1);
+    	
     }
 
     /**
@@ -34,5 +43,27 @@ public class TwoSum {
      */
     public boolean find(int value) {
         // write your code here
+    	
+    	Set<Entry<Integer,Integer>> entrySet = map.entrySet();
+    	
+    	for (Entry<Integer, Integer> entry : entrySet) {
+			
+    		Integer a1 = entry.getKey();
+    		
+    		if (map.containsKey(value-a1)) {
+    			//处理相等的情况
+				if (value-a1==a1&&entry.getValue()==1) {
+//					Integer count = entry.getValue();
+//					if (count==1) {
+						continue;
+//					}
+				}else {
+					
+					return true;
+				}
+			}
+		}
+    	
+    	return false;
     }
 }

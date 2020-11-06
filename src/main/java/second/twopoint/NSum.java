@@ -122,35 +122,54 @@ public class NSum {
 			return result;
 		}
 		
+		//由于threeSum的时间复杂度在O(n^2)，所以不用担心排序的开销
 		Arrays.sort(nums);
 		for (int i = 0; i < nums.length; i++) {
 			if (i==0||nums[i]>nums[i-1]) {
 				
-				for (int j = i+1; j < nums.length; j++) {
-					if (j==i+1||nums[j]>nums[j-1]) {
-						
-						for (int k = j+1; k < nums.length; k++) {
-							if (k==j+1||nums[k]>nums[k-1]) {
-								
-								List<Integer> list=new ArrayList<>();
-								if (nums[i]+nums[j]+nums[k]==0) {
-									list.add(nums[i]);
-									list.add(nums[j]);
-									list.add(nums[k]);
-								}
-								if (list.size()>0) {
-									
-									result.add(list);
-								}
-							}
-						}
-					}
-				}
+				twoSum4threeSum(nums, i, result);
 			}
 		}
 		
 		return result;
     }
+	
+	
+	public void twoSum4threeSum(int[] nums,int i,List<List<Integer>> result) {
+		
+		for (int j = i+1; j < nums.length; j++) {
+			if (j==i+1||nums[j]>nums[j-1]) {
+				
+				for (int k = j+1; k < nums.length; k++) {
+					if (k==j+1||nums[k]>nums[k-1]) {
+						
+						List<Integer> list=new ArrayList<>();
+						if (nums[i]+nums[j]+nums[k]==0) {
+							list.add(nums[i]);
+							list.add(nums[j]);
+							list.add(nums[k]);
+						}
+						if (list.size()>0) {
+							
+							result.add(list);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	public void twoSum4threeSum2(int[] nums,int i,List<List<Integer>> result) {
+		
+		int left=i+1;
+		int right=nums.length-1;
+		
+		while(left<=right) {
+			
+		}
+		
+	}
 	
 	/**
 	 * 双指针
