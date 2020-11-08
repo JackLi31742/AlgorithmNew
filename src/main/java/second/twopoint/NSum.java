@@ -8,8 +8,8 @@ import java.util.List;
 
 public class NSum {
 	public static void main(String[] args) {
-		int[] nums= {-1,0,1};
-		System.out.println(twoSum5(nums, 0));;
+		int[] nums= {1,2,3,4,5,6};
+		System.out.println(triangleCount(nums));;
 		
 		
 //		System.out.println(threeSum3(nums));
@@ -42,6 +42,56 @@ public class NSum {
 		}
         return null;
     }
+	
+	/**
+	 * 双指针
+	 * @param nums
+	 * @param target
+	 * @return
+	 */
+	public static int[] twoSum2(int[] nums, int target) {
+		
+		if (nums==null||nums.length<2) {
+			return null;
+		}
+		
+		int[]temp=Arrays.copyOf(nums, nums.length);
+		
+		Arrays.sort(temp);
+		int[] result=new int[2];
+		
+		int left=0;
+		int right=nums.length-1;
+		int i=left;
+		int j=right;
+		while(left<right) {
+			
+			if (temp[left]+temp[right]<target) {
+				left++;
+			}else if (temp[left]+temp[right]>target) {
+				right--;
+			}else {
+				i=left;
+				j=right;
+				break;
+			}
+		}
+		
+		for (int k = 0; k < nums.length; k++) {
+			if (nums[k]==temp[i]) {
+				result[0]=k;
+				break;
+			}
+		}
+		for (int k = 0; k < nums.length; k++) {
+			if (nums[k]==temp[j]&&k!=result[0]) {
+				result[1]=k;
+				break;
+			}
+		}
+		
+		return result;
+	}
 	
 	/**
 	 * lintcode 609. 两数和-小于或等于目标值
@@ -114,7 +164,7 @@ public class NSum {
 	 * @param nums
 	 * @return
 	 */
-	public List<List<Integer>> threeSum(int[] nums) {
+	public static List<List<Integer>> threeSum(int[] nums) {
 
 		List<List<Integer>> result=new ArrayList<List<Integer>>();
 		
@@ -124,18 +174,18 @@ public class NSum {
 		
 		//由于threeSum的时间复杂度在O(n^2)，所以不用担心排序的开销
 		Arrays.sort(nums);
-		for (int i = 0; i < nums.length; i++) {
+		for (int i = 0; i < nums.length-2; i++) {
 			if (i==0||nums[i]>nums[i-1]) {
 				
-				twoSum4threeSum(nums, i, result);
+				twoSum4threeSum2(nums, i, result);
 			}
 		}
 		
 		return result;
     }
 	
-	
-	public void twoSum4threeSum(int[] nums,int i,List<List<Integer>> result) {
+	//会超时
+	public static void twoSum4threeSum(int[] nums,int i,List<List<Integer>> result) {
 		
 		for (int j = i+1; j < nums.length; j++) {
 			if (j==i+1||nums[j]>nums[j-1]) {
@@ -159,14 +209,41 @@ public class NSum {
 		}
 	}
 	
-	
-	public void twoSum4threeSum2(int[] nums,int i,List<List<Integer>> result) {
+	/**
+	 * 双指针
+	 * @param nums
+	 * @param i
+	 * @param result
+	 */
+	public static void twoSum4threeSum2(int[] nums,int i,List<List<Integer>> result) {
 		
 		int left=i+1;
 		int right=nums.length-1;
 		
-		while(left<=right) {
-			
+		while(left<right) {
+			if (nums[left]+nums[right]+nums[i]<0) {
+				left++;
+			}else if (nums[left]+nums[right]+nums[i]>0) {
+				right--;
+			}else {
+				List<Integer> list=new ArrayList<>();
+				list.add(nums[i]);
+				list.add(nums[left]);
+				list.add(nums[right]);
+				result.add(list);
+				
+				//left指针走了，right指针必须要走，否则就不可能等于0
+				left++;
+				right--;
+				
+				while(left<right&&nums[left]==nums[left-1]) {
+					left++;
+				}
+				
+				while(left<right&&nums[right]==nums[right+1]) {
+					right--;
+				}
+			}
 		}
 		
 	}
@@ -269,23 +346,118 @@ public class NSum {
 	 * @param S
 	 * @return
 	 */
-	public int triangleCount(int[] S) {
+	public static int triangleCount(int[] S) {
         // write your code here
+		if (S==null||S.length<3) {
+			return 0;
+		}
+		Arrays.sort(S);
+		int result=0;
+		//控制最大值，比较不容易漏掉
+		for (int i = S.length-1; i >=2; i--) {
+//			if (i==0||S[i]>S[i-1]) {
+				result+=triangleCount(S,i);
+//			}
+		}
+		return result;
     }
 	
+	public static int triangleCount(int[] S,int i) {
+		
+		int left=0;
+		int right=i-1;
+		int count=0;
+		while(left<right) {
+			
+			if (S[left]+S[right]>S[i]) {
+				count+=right-left;
+				right--;
+			}else {
+				left++;
+			}
+		}
+		
+		return count;
+	}
 	/**
-	 * 58. 四数之和
+	 * lintcode 58. 四数之和
 	给一个包含n个数的整数数组S，在S中找到所有使得和为给定整数target的四元组(a, b, c, d)。
 	四元组(a, b, c, d)中，需要满足a <= b <= c <= d
 
-答案中不可以包含重复的四元组。
+	答案中不可以包含重复的四元组。
+
+		把a，b当成target-a-b的target，c d用twosum 
 	 * @param numbers
 	 * @param target
 	 * @return
 	 */
 	public List<List<Integer>> fourSum(int[] numbers, int target) {
         // write your code here
+		List<List<Integer>> result=new ArrayList<>();
+		if (numbers==null||numbers.length<4) {
+			return result;
+		}
+		
+		Arrays.sort(numbers);
+		
+		
+		for (int i = 0; i < numbers.length-3; i++) {
+			
+			if (i==0||numbers[i]>numbers[i-1]) {
+				
+				for (int j = i+1; j < numbers.length-2; j++) {
+					
+					if (j==i+1||numbers[j]>numbers[j-1]) {
+						
+						int sum=numbers[i]+numbers[j];
+						
+						twoSum(numbers, target-sum, result,i ,j);
+						
+					}
+				}
+			}
+		}
+		
+		return result;
     }
+	
+	public void twoSum(int[] numbers, int target,List<List<Integer>> result,int i, int j) {
+		
+		int left=j+1;
+		int right=numbers.length-1;
+		
+		while(left<right) {
+			
+			if (numbers[left]+numbers[right]>target) {
+				
+				right--;
+			}else if (numbers[left]+numbers[right]<target) {
+				
+				left++;
+			}else {
+				
+				List<Integer> list=new ArrayList<>();
+				list.add(numbers[i]);
+				list.add(numbers[j]);
+				list.add(numbers[left]);
+				list.add(numbers[right]);
+				result.add(list);
+				
+				left++;
+				right--;
+				
+				while(left<right&&numbers[left]==numbers[left-1]) {
+					left++;
+				}
+				while(left<right&&numbers[right]==numbers[right+1]) {
+					right--;
+				}
+			}
+		}
+		
+	}
+	
+	
 	/**
 	 * lintcode 976. 4数和 II
 	 * 给出 A, B, C, D 四个整数列表，
@@ -304,5 +476,33 @@ public class NSum {
 	 */
 	 public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
 	        // Write your code here
-	    }
+
+		 //key是和，value是和的个数
+		 HashMap<Integer, Integer> map=new HashMap<>();
+		 
+		 for (int i = 0; i < A.length; i++) {
+			
+			 for (int j = 0; j < B.length; j++) {
+				
+				 int sum=A[i]+B[j];
+				 map.put(sum, map.getOrDefault(sum, 0)+1);
+			}
+		}
+		 
+		 int result=0;
+		 for (int i = 0; i < C.length; i++) {
+			
+			 for (int j = 0; j < D.length; j++) {
+				
+				 int sum=C[i]+D[j];
+				 
+				 if (map.containsKey(-sum)) {
+					
+					result+=map.get(-sum); 
+				}
+			}
+		}
+		 
+		 return result;
+	 }
 }
