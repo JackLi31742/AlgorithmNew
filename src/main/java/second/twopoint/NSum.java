@@ -3,13 +3,12 @@ package second.twopoint;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 
 public class NSum {
 	public static void main(String[] args) {
-		int[] nums= {1,2,3,4,5,6};
-		System.out.println(triangleCount(nums));;
+		int[] nums= {1,0,-1};
+		System.out.println(twoSum2(nums, 0));;
 		
 		
 //		System.out.println(threeSum3(nums));
@@ -49,7 +48,7 @@ public class NSum {
 	 * @param target
 	 * @return
 	 */
-	public static int[] twoSum2(int[] nums, int target) {
+	public static int[] twoSum12(int[] nums, int target) {
 		
 		if (nums==null||nums.length<2) {
 			return null;
@@ -121,7 +120,7 @@ public class NSum {
     }
 
 	/**
-	 * 
+	 * lintcode 609.
 	 * @param nums
 	 * @param target
 	 * @return
@@ -150,6 +149,36 @@ public class NSum {
 		return count;
 	}
 	
+	/**
+	 * lintcode 443. 两数之和 II
+	 * 	给一组整数，问能找出多少对整数，他们的和大于一个给定的目标值。
+	 * @param nums
+	 * @param target
+	 * @return
+	 */
+	public static int twoSum2(int[] nums, int target) {
+        // write your code here
+		
+		if (nums==null||nums.length<2) {
+			return 0;
+		}
+        
+		Arrays.sort(nums);
+		
+		int count=0;
+		
+		int left=0;
+		int right=nums.length-1;
+		while(left<right) {
+			while (left<right&&nums[left]+nums[right]<=target) {
+				left++;
+			}
+			count+=right-left;
+			right--;
+		}
+		
+		return count;
+    }
 	
 	/**
 	 * 15. 三数之和
