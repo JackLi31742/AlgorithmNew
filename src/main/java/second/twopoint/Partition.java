@@ -257,19 +257,36 @@ public class Partition {
 		if (nums==null||nums.length==0) {
 			return ;
 		}
-		//代表
+		//代表0的右侧
 		int left=0;
+		//代表2的左侧
 		int right=nums.length-1;
 		
 		while(left<=right) {
-			
-			if (nums[left]==2) {
-				swip(nums, left, right);
-			}else if (nums[left]==0) {
-				swip(nums, left, right);
-			}else {
-				left++;
+			if(left<=right) {
+				if (nums[left]==2) {
+					swip(nums, left, right);
+				}else {
+					left++;
+				}
 			}
+			
+			
+			if(left<=right) {
+				if (nums[right]==0) {
+					swip(nums, left, right);
+				}else {
+					right--;
+				}
+			}
+
+			if(left<=right) {
+				if (nums[left]==1) {
+					
+				}
+			}
+				
+			
 		}
 		
     }
