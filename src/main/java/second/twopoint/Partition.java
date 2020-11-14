@@ -5,13 +5,13 @@ import java.util.Arrays;
 public class Partition {
 
 	public static void main(String[] args) {
-		int[]nums= {2,0,0,1,2,0,2};
+		int[]nums= {3,2,3,3,4,3,3,2,4,4,1,2,1,1,1,3,4,3,4,2};
 		
 //		partitionArray(nums, 2);
 		
 		Partition partition=new Partition();
 		
-		partition.sortColors2(nums);
+		partition.sortColors22(nums,4);
 		
 		System.out.println(Arrays.toString(nums));
 	}
@@ -244,52 +244,119 @@ public class Partition {
 		我们可以使用整数 0，1 和 2 分别代表红，白，蓝。
 	 * @param nums
 	 */
-	public void sortColors(int[] nums) {
+	public void sortColors1(int[] nums) {
         // write your code here
 		partitionArray(nums, 1);
 		partitionArray(nums, 2);
     }
 	
 	
-	public void sortColors2(int[] nums) {
+	public void sortColors12(int[] nums) {
         // write your code here
 
 		if (nums==null||nums.length==0) {
 			return ;
 		}
 		//代表0的右侧
-		int left=0;
+		int p0=0;
 		//代表2的左侧
-		int right=nums.length-1;
+		int p2=nums.length-1;
 		
-		while(left<=right) {
-			if(left<=right) {
-				if (nums[left]==2) {
-					swip(nums, left, right);
-				}else {
-					left++;
-				}
-			}
-			
-			
-			if(left<=right) {
-				if (nums[right]==0) {
-					swip(nums, left, right);
-				}else {
-					right--;
-				}
-			}
-
-			if(left<=right) {
-				if (nums[left]==1) {
-					
-				}
-			}
+		int cur=0;
+		
+		while(cur<=p2) {
+			//每次都考察nums[cur]，每次只考察一个，所以是if else的关系
+			//由于要走指针，所以每次if都需要范围限制
+			if (p0<=cur&&nums[cur]==0) {
+				swip(nums, p0, cur);
+				p0++;
 				
+			}else if (cur<=p2&&nums[cur]==2) {
+				swip(nums, cur, p2);
+				p2--;
+				
+			}else {
+				cur++;
+			}
+			
 			
 		}
 		
     }
+	
+	/**
+	 * lintcode 143. Sort Colors II
+	给定一个有n个对象（包括k种不同的颜色，并按照1到k进行编号）的数组，
+	将对象进行分类使相同颜色的对象相邻，并按照1,2，...k的顺序进行排序。
+	
+	这是O(K*N)
+	 * @param colors
+	 * @param k
+	 */
+	public void sortColors2(int[] colors, int k) {
+        // write your code here
+		if (colors==null||colors.length==0) {
+			return ;
+		}
+		
+		
+		for (int i = 1; i < k; i++) {
+			partitionArray(colors, i+1);
+		}
+    }
+	
+	/**
+	 * lintcode 143. Sort Colors II
+	 * 本质还是对数组进行排序，所以是快排，但是由于数组是有范围的，所以在分治时，可以加速到O(logK)
+	 * @param colors
+	 * @param k
+	 */
+	public void sortColors22(int[] colors, int k) {
+		
+		if (colors==null||colors.length==0) {
+			return;
+		}
+		
+		quickSort(colors, 1, k,0,colors.length-1);
+	}
+	
+	
+	public void quickSort(int[] colors, int colorFrom, int colorTo, int start, int end) {
+
+		// 不适用partition方式，需要在这里重新定义变量
+		int left = start;
+		int right = end;
+
+		if (left >= right || colorFrom >= colorTo) {
+			return;
+		}
+
+		int mid = (colorTo - colorFrom) / 2 + colorFrom;
+
+		while (left <= right) {
+			//因为mid 是向下取整的 所以等于的在左边 和 mid同侧
+			// 这应该就是下标和值的不同
+			while (left <= right && colors[left] <= mid) {
+				left++;
+			}
+			while (left <= right && colors[right] > mid) {
+				right--;
+			}
+
+			if (left <= right) {
+				swip(colors, left, right);
+				left++;
+				right--;
+			}
+		}
+
+		quickSort(colors, colorFrom, mid, start, right);
+
+		//由于是向下取整，所以mid + 1
+		quickSort(colors, mid + 1, colorTo, left, end);
+	}
+	
+	
 	
 	
 	public static void swip(char[]nums,int i,int j) {
