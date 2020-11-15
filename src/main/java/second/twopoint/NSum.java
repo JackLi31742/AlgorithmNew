@@ -7,8 +7,8 @@ import java.util.List;
 
 public class NSum {
 	public static void main(String[] args) {
-		int[] nums= {1,0,-1};
-		System.out.println(twoSum2(nums, 0));;
+		int[] nums= {0,1,2,2};
+		System.out.println(twoSum7(nums, 0));;
 		
 		
 //		System.out.println(threeSum3(nums));
@@ -179,6 +179,49 @@ public class NSum {
 		
 		return count;
     }
+	
+	/**
+	 * 610. Two Sum - Difference equals to target
+		给定一个排序后的整数数组，找到两个数的 差 等于目标值。
+		你需要返回一个包含两个数字的列表[num1, num2], 使得num1与num2的差为target，同时num1必须小于num2。
+	 * @param nums
+	 * @param target
+	 * @return
+	 */
+	public static int[] twoSum7(int[] nums, int target) {
+        // write your code here
+		
+		if (nums==null||nums.length==0) {
+			return new int[] {-1,-1};
+		}
+		
+		int j=1;
+		
+		target=Math.abs(target);
+		//使用for循环，是i在增加后，还要继续进入下边的while循环，而不是if else 的关系
+		for (int i = 0; i < nums.length; i++) {
+			
+			//为了保持j在i的右边，否则有可能j的指针不走
+			j=Math.max(j, i+1);
+			//而且之后j不用从i+1开始，因为在出了while循环之后的j的坐标之前的值减去nums[i]
+			//比target小，那么在i的指针向后移动之后，相减更会小于target，所以从当下的j向后就行
+			while(i<j&&j<nums.length&&nums[j]-nums[i]<target) {
+				j++;
+			}
+			
+			if (j>=nums.length) {
+				break;
+			}
+			
+			if (i<j&&j<nums.length&&nums[j]-nums[i]==target) {
+				
+				return new int[] {nums[i],nums[j]};
+			}
+		}
+			
+		return new int[] {-1,-1};
+    }
+	
 	
 	/**
 	 * 15. 三数之和
