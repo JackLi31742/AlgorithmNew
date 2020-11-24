@@ -2,8 +2,6 @@ package sort;
 
 import java.util.Arrays;
 
-import com.sun.java.swing.plaf.motif.resources.motif;
-
 public class MergeSort {
 
 	public static void main(String[] args) {
