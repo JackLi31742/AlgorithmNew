@@ -172,6 +172,12 @@ public class BST {
 				cur=cur.left;
 			}else {
 				TreeNode node = stack.pop();
+				//在pop的时候才是正在的中序，push的时候不是
+				if (node==p) {
+					break;
+				}else {
+					pre=node;
+				}
 				cur=node.right;
 			}
 			
@@ -218,8 +224,8 @@ public class BST {
 	 * 901. 二叉搜索树中最接近的值 II
 		给定一棵非空二叉搜索树以及一个target值，找到 BST 中最接近给定值的 k 个数。
 		给出的target值为浮点数
-你可以假设 k 总是合理的，即 k ≤ 总节点数
-我们可以保证给出的 BST 中只有唯一一个最接近给定值的 k 个值的集合
+		你可以假设 k 总是合理的，即 k ≤ 总节点数
+		我们可以保证给出的 BST 中只有唯一一个最接近给定值的 k 个值的集合
 	 * @param root
 	 * @param target
 	 * @param k
@@ -227,6 +233,8 @@ public class BST {
 	 */
 	public List<Integer> closestKValues(TreeNode root, double target, int k) {
         // write your code here
+		
+		
     }
 }
 
