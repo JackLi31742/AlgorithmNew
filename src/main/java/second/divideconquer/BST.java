@@ -23,7 +23,7 @@ public class BST {
 //		node5.right=node6;
 		
 		BST bst=new BST();
-		bst.inorderPredecessor(node1, node2);
+//		bst.inorderPredecessor(node1, node2);
 		
 	}
 	
@@ -98,144 +98,7 @@ public class BST {
 		return result3;
 	}
 
-	/**
-	 * 902. BST中第K小的元素
-	 * 给一棵二叉搜索树，写一个 KthSmallest 函数来找到其中第 K 小的元素。
-	 * 
-	 * 时间复杂度分析
-	O(k + h)
-	当 k 是 1 的时候 ==> O(h)
-	当 k 是 n 的时候 ==> O(n)
-	k和h两者取大值
-	 * @param root
-	 * @param k
-	 * @return
-	 */
-	public int kthSmallest(TreeNode root, int k) {
-        // write your code here
-		
-		if (root==null||k==0) {
-			return -1;
-		}
-		
-		Stack<TreeNode> stack=new Stack<TreeNode>();
-		
-		int index=1;
-		int result=-1;
-		TreeNode cur=root;
-		
-		while(cur!=null || !stack.isEmpty()) {
-			
-			if (cur!=null) {
-				stack.push(cur);
-				cur=cur.left;
-			}else {
-				TreeNode node = stack.pop();
-				//先处理当前的，再++
-				if (index==k) {
-					result=node.val;
-					break;
-				}
-				
-				index++;
-				cur=node.right;
-			}
-			
-		}
-		
-		return result;
-    }
 	
-	/**
-	 * 915. BST的中序前驱节点
-	 * 给出一棵二叉搜索树以及其中的一个节点，找到这个节点在这棵树中的中序前驱节点。
-	 * @param root
-	 * @param p
-	 * @return
-	 */
-	public TreeNode inorderPredecessor(TreeNode root, TreeNode p) {
-	        // write your code here
-		if (root==null||p==null) {
-			return null;
-		}
-		
-		Stack<TreeNode> stack=new Stack<TreeNode>();
-		
-		TreeNode cur=root;
-		
-		TreeNode pre=null;
-		
-		while(cur!=null||!stack.isEmpty()) {
-			
-			if(cur!=null) {
-				stack.push(cur);
-				cur=cur.left;
-			}else {
-				TreeNode node = stack.pop();
-				//在pop的时候才是正在的中序，push的时候不是
-				if (node==p) {
-					break;
-				}else {
-					pre=node;
-				}
-				cur=node.right;
-			}
-			
-			
-		}
-		
-		return pre;
-	}
-	/**
-	 * 900. 二叉搜索树中最接近的值
-		给一棵非空二叉搜索树以及一个target值，找到在BST中最接近给定值的节点值
-
-		给出的目标值为浮点数
-		我们可以保证只有唯一一个最接近给定值的节点
-	 * @param root
-	 * @param target
-	 * @return
-	 */
-	public int closestValue(TreeNode root, double target) {
-        // write your code here
-		
-		TreeNode cur=root;
-		double dif=0;
-		double min=Integer.MAX_VALUE;
-		TreeNode result=null;
-		while(cur!=null) {
-			
-			dif=Math.abs(target-cur.val);
-			if (dif<min) {
-				min=dif;
-				result=cur;
-			}
-			if (cur.val<target) {
-				cur=cur.right;
-			}else {
-				cur=cur.left;
-			}
-		}
-		
-		return result.val;
-    }
-	
-	/**
-	 * 901. 二叉搜索树中最接近的值 II
-		给定一棵非空二叉搜索树以及一个target值，找到 BST 中最接近给定值的 k 个数。
-		给出的target值为浮点数
-		你可以假设 k 总是合理的，即 k ≤ 总节点数
-		我们可以保证给出的 BST 中只有唯一一个最接近给定值的 k 个值的集合
-	 * @param root
-	 * @param target
-	 * @param k
-	 * @return
-	 */
-	public List<Integer> closestKValues(TreeNode root, double target, int k) {
-        // write your code here
-		
-		
-    }
 }
 
 
