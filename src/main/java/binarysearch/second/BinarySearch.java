@@ -1,4 +1,4 @@
-package second.binarysearch;
+package binarysearch.second;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package second.divideconquer;
+package divideconquer.second;
 
 import java.util.HashSet;
 
