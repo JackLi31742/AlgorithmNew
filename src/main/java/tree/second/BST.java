@@ -1,4 +1,4 @@
-package second.traversal;
+package tree.second;
 
 import java.util.ArrayList;
 import java.util.List;
