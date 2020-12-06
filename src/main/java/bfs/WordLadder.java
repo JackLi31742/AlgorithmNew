@@ -1,6 +1,5 @@
 package bfs;
 
-import java.io.DataInputStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,10 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
-
-import sun.print.resources.serviceui;
 
 /**
  * 简单图最短路径
@@ -136,6 +131,13 @@ public class WordLadder {
 		return list;
 	}
 	
+	/**
+	 * 这是第一版
+	 * @param start
+	 * @param end
+	 * @param dict
+	 * @return
+	 */
 	public static int ladderLength2(String start, String end, Set<String> dict) {
         // write your code here
 		

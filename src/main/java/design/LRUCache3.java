@@ -6,6 +6,8 @@ import java.util.HashMap;
  * 146. LRU缓存机制
  * 
  * 	自己实现linkedhashmap
+ * 
+ * 
 
  */
 public class LRUCache3 {
