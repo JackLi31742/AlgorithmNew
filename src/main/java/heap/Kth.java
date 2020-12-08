@@ -333,11 +333,23 @@ public class Kth {
 	
 	/**
 	 * 378. 有序矩阵中第K小的元素
+	 * 401. 排序矩阵中的从小到大第k个数
+	 * 排序矩阵的定义为：每一行递增，每一列也递增。
 	 * @param matrix
 	 * @param k
 	 * @return
 	 */
 	public int kthSmallest(int[][] matrix, int k) {
 
+		if (matrix==null||matrix.length==0||matrix[0].length==0||k<=0) {
+			return -1;
+		}
+		
+		int row = matrix.length;
+		int col = matrix[0].length;
+		
+		PriorityQueue<Integer> maxHeap =new PriorityQueue<Integer>(k);
+		
+		
     }
 }

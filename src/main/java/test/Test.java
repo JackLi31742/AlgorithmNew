@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import design.MyHashSet;
 
@@ -58,11 +60,21 @@ public class Test {
 //		System.out.println(map);
 		
 		
-		ArrayList<Integer> list2=new ArrayList<Integer>(3);
+//		ArrayList<Integer> list2=new ArrayList<Integer>(3);
+//		
+//		list2.set(1, 3);
+//		System.out.println(list2);
 		
-		list2.set(1, 3);
-		System.out.println(list2);
 		
+		Map<Integer, Integer> map=new LinkedHashMap<Integer, Integer>();
 		
+		map.put(1,1);
+		
+		System.out.println(map.get(0));;
+		
+		System.out.println(map.remove(0));
+		
+		map.remove(1);
+		System.out.println(map);
 	}
 }
