@@ -696,4 +696,5 @@ public class BinarySearch {
 //		System.out.println(sum);
 		return Math.max(max, sum/k);
 	}
+	
 }

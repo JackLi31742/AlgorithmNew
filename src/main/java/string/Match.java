@@ -139,7 +139,12 @@ public class Match {
 		return -1;
 	}
 	
-	
+	/**
+	 * 在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+	 * @param haystack
+	 * @param needle
+	 * @return
+	 */
 	public static int strStr4(String haystack, String needle) {
 		
 		if (haystack==null||needle==null||haystack.length()<needle.length()) {
@@ -157,6 +162,7 @@ public class Match {
 		
 		int nHash=0;
 		int hHash=0;
+		//计算从0到小字符串的长度的hash
 		for (int i = 0; i < nLen; i++) {
 			nHash=(nHash*PRIME+nArr[i])%HASHSIZE;
 			hHash=(hHash*PRIME+hArr[i])%HASHSIZE;
@@ -183,6 +189,7 @@ public class Match {
 			base=(base*PRIME)%HASHSIZE;
 		}
 		
+		//从下标1开始滑动窗口计算hash
 		for (int i = 1; i < hLen-nLen+1; i++) {
 //			System.out.println(hArr[i+nLen-1]+","+hArr[i-1]);
 			hHash=(hHash*PRIME+hArr[i+nLen-1]-hArr[i-1]*base)%HASHSIZE;
