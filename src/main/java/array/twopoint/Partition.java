@@ -5,13 +5,13 @@ import java.util.Arrays;
 public class Partition {
 
 	public static void main(String[] args) {
-		int[]nums= {3,2,3,3,4,3,3,2,4,4,1,2,1,1,1,3,4,3,4,2};
+		int[]nums= {9,3,2,4,8};
 		
 //		partitionArray(nums, 2);
 		
 		Partition partition=new Partition();
 		
-		partition.sortColors22(nums,4);
+		System.out.println(partition.kthLargestElement(3, nums));;
 		
 		System.out.println(Arrays.toString(nums));
 	}
@@ -371,6 +371,70 @@ public class Partition {
 		nums[j]=temp;
 	}
 	
+	/**
+	 * 5. 第k大元素
+		在数组中找到第 k 大的元素。
+		要求时间复杂度为O(n)，空间复杂度为O(1)。
+	 * @param n
+	 * @param nums
+	 * @return
+	 */
+	public int kthLargestElement(int k, int[] nums) {
+        // write your code here
+		if (nums==null||nums.length==0|| k < 1 || k > nums.length) {
+			return -1;
+		}
+		
+		int partition=sort(k, nums, 0, nums.length-1);
+		
+		return nums[partition];
+    }
+	
+	public int sort(int k, int[] nums,int left,int right) {
+		
+		if (left>=right) {
+			return left;
+		}
+		
+		int partition=partition(k,nums,left,right);
+		
+		if (partition<nums.length-k) {
+			//这是递归，要返回值，否则partition进了递归再出来，没有任何改变
+			return sort(k,nums,partition,right);
+		}else if(partition>nums.length-k){
+			return sort(k,nums,left,partition-1);
+		}
+		return partition;
+	}
+	
+	public int partition(int k, int[] nums,int left,int right) {
+		
+		
+		
+		int mid=left+(right-left)/2;
+		int pivot=nums[mid];
+		
+		while(left<=right) {
+			
+			while(left<=right&&nums[left]<pivot) {
+				left++;
+			}
+			
+			while(left<=right&&nums[right]>pivot) {
+				right--;
+			}
+			
+			if (left<=right) {
+				int temp=nums[left];
+				nums[left]=nums[right];
+				nums[right]=temp;
+				left++;
+				right--;
+			}
+		}
+		
+		return left;
+	}
 	
 
 	/**
@@ -393,13 +457,49 @@ public class Partition {
 		
 		int col = matrix[0].length;
 		
-		
+		return partition(matrix, k, row, col, 0, row*col-1);
     }
 	
-	public int partition(int[][] matrix, int k,int row,int col,int left,int right) {
+	public int partition(int[][] matrix, int k,int row,int col,int start,int end) {
 		
+		
+		int left=start;
+		int right=end;
+		if (left>=right) {
+			return left;
+		}
 		int mid=left+(right-left)/2;
 		
+		int pivot=matrix[mid/col][mid%col];
 		
+		while(left<=right) {
+			
+			while(left<=right&&matrix[left/col][left%col]<pivot) {
+				left++;
+			}
+			
+			while(left<=right&&matrix[right/col][right%col]>pivot) {
+				right--;
+			}
+			
+			if (left<=right) {
+				int temp=matrix[left/col][left%col];
+				matrix[left/col][left%col]=matrix[right/col][right%col];
+				matrix[right/col][right%col]=temp;
+				left++;
+				right--;
+			}
+		}
+		
+		if (left>k) {
+			return partition(matrix, k, row, col, start, left-1);
+		}else if (left<k) {
+			return partition(matrix, k, row, col, left, end);
+		}else {
+			return matrix[left/col][left%col];
+		}
 	}
+	
+	
+	
 }
