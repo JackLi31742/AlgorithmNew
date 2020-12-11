@@ -697,4 +697,71 @@ public class BinarySearch {
 		return Math.max(max, sum/k);
 	}
 	
+	/**
+	 * 面试题 10.09. 排序矩阵查找
+	 * 给定M×N矩阵，每一行、每一列都按升序排列，请编写代码找出某元素。
+	 * @param matrix
+	 * @param target
+	 * @return
+	 */
+	public boolean searchMatrix(int[][] matrix, int target) {
+
+		if (matrix==null||matrix.length<=0||matrix[0].length<=0||k<=0) {
+			return false;
+		}
+		
+		int row = matrix.length;
+		
+		int col = matrix[0].length;
+		
+		int left=0;
+		int right=row*col-1;
+		
+		while(left<=right) {
+			
+			int mid=left+(right-left)/2;
+			
+			if (matrix[mid/col][mid%col]<target) {
+				
+			}
+		}
+		
+    }
+	
+	/**
+	 * 401. 排序矩阵中的从小到大第k个数
+		在一个排序矩阵中找从小到大的第 k 个整数。
+
+排序矩阵的定义为：每一行递增，每一列也递增。
+
+	没有利用到矩阵本身递增的性质
+	 * @param matrix
+	 * @param k
+	 * @return
+	 */
+	public int kthSmallest(int[][] matrix, int k) {
+		
+		if (matrix==null||matrix.length<=0||matrix[0].length<=0||k<=0) {
+			return -1;
+		}
+		
+		int row = matrix.length;
+		
+		int col = matrix[0].length;
+		
+		int left=0;
+		int right=row*col-1;
+		
+		while(left<=right) {
+			
+			int mid=left+(right-left)/2;
+			
+			if (matrix[mid/col][mid%col]) {
+				
+			}
+		}
+	}
+	
+	
+	
 }

@@ -11,9 +11,15 @@ public class Partition {
 		
 		Partition partition=new Partition();
 		
-		System.out.println(partition.kthLargestElement(3, nums));;
+//		System.out.println(partition.kthLargestElement(3, nums));;
+//		
+//		System.out.println(Arrays.toString(nums));
 		
-		System.out.println(Arrays.toString(nums));
+		int[][] matrix = {{1,5,7},
+							{3,7,8},
+							{4,8,9}};
+		
+		System.out.println(partition.kthSmallest(matrix, 1));;
 	}
 	
 	/**
@@ -442,6 +448,8 @@ public class Partition {
 		在一个排序矩阵中找从小到大的第 k 个整数。
 
 排序矩阵的定义为：每一行递增，每一列也递增。
+
+	没有利用到矩阵本身递增的性质
 	 * @param matrix
 	 * @param k
 	 * @return
@@ -457,7 +465,11 @@ public class Partition {
 		
 		int col = matrix[0].length;
 		
-		return partition(matrix, k, row, col, 0, row*col-1);
+		//由于是用下标，所以要k-1
+		int partition=partition(matrix, k-1, row, col, 0, row*col-1);
+		
+		//要注意递归的返回值到底是什么
+		return matrix[partition/col][partition%col];
     }
 	
 	public int partition(int[][] matrix, int k,int row,int col,int start,int end) {
@@ -496,7 +508,7 @@ public class Partition {
 		}else if (left<k) {
 			return partition(matrix, k, row, col, left, end);
 		}else {
-			return matrix[left/col][left%col];
+			return left;
 		}
 	}
 	
