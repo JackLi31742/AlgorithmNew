@@ -1,6 +1,7 @@
-package design;
+package design.second.hash;
 
 /**
+ * 24. LFU缓存
  * 460. LFU缓存
  * get(key) - 如果键存在于缓存中，则获取键的值（总是正数），否则返回 -1。
 	put(key, value) - 如果键已存在，则变更其值；如果键不存在，请插入键值对。
