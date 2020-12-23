@@ -1,15 +1,20 @@
-package dp;
+package dp.match;
 
-public class PatternMatch {
+public class WildCardMatch {
 	
 	
 	public static void main(String[] args) {
-		PatternMatch patternMatch=new PatternMatch();
-		patternMatch.isMatch("aa", "*");
+		WildCardMatch patternMatch=new WildCardMatch();
+		System.out.println(patternMatch.isMatch("aa", "*"));;
+		
+//		String aString="";
+//		System.out.println(aString.length());
+//		System.out.println(aString.charAt(0)==' ');
+		
 	}
 
 	/**
-	 * 10. 正则表达式匹配
+	 * 
 	 * 192. 通配符匹配
 	 * 判断两个可能包含通配符“？”和“*”的字符串是否匹配。匹配规则如下：
 
@@ -32,10 +37,13 @@ p包含小写英文字母，？和 *
 		}
 		//memo是记住相同下标计算后的结果，防止重复计算
 		//其实memo就是dfs的结果
-		boolean[][]memo=new boolean[s.length()][p.length()];
+//		boolean[][]memo=new boolean[s.length()][p.length()];
 		//visited是记住这俩个下标有没有访问过，和memo的作用不一样
-		boolean[][]visited=new boolean[s.length()][p.length()];
-		return dfs(s, 0, p, 0,memo,visited);
+//		boolean[][]visited=new boolean[s.length()][p.length()];
+		
+//		return dfs(s, 0, p, 0,memo,visited);
+		
+		return dp(s, p);
     }
 	
 	public boolean isAllStar(String p,int pIndex) {
@@ -111,36 +119,70 @@ p包含小写英文字母，？和 *
 		return false;
 	}
 	
-	
-	public boolean dp(String s, int sIndex, String p, int pIndex, boolean[][] dp) {
+	/**
+	 * dfs是从当下的点向后进行递归计算
+	 * dp不能是前边的依赖后边的，因为后边还没有计算，所以需要换一个角度，当前的点是从之前的点来的
+	 * 所以dp需要初始化
+	 * 
+	 * dp[i][j]数组的含义代表s到i为止，p到j为止，是否匹配
+	 * @param s
+	 * @param sIndex
+	 * @param p
+	 * @param pIndex
+	 * @return
+	 */
+	public boolean dp(String s, String p) {
 
-		// 如果s的下标走到头了，那么p从pIndex必须都是*
-		if (sIndex == s.length()) {
+		int sLen=s.length();
+		int pLen=p.length();
+		
+		boolean[][] dp = new boolean[sLen+1][pLen+1];
 
-			return isAllStar(p, pIndex);
-		}
-
-		// 如果p的下标走到头了，那么s必须也得走到头
-		if (pIndex == p.length()) {
-
-			return sIndex == s.length();
+		dp[0][0]=true;
+		
+		//这是行
+		for (int j = 1; j <= pLen; j++) {
+			
+			dp[0][j]=dp[0][j-1]&&p.charAt(j-1)=='*';
 		}
 		
-		while(pIndex<p.length()&&sIndex<s.length()) {
+		//列除了第一个，都初始化为false，因为代表了s有字符，而p是""
+		
+		
+		for (int i = 1; i <= sLen; i++) {
 			
-			if (p.charAt(pIndex) == '?' || s.charAt(sIndex) == p.charAt(pIndex)) {
+			for (int j = 1; j <= pLen; j++) {
 				
-				// 属于向后依赖
-				dp[sIndex][pIndex] = dp[sIndex+1][pIndex+1];
-				
-			} else if (p.charAt(pIndex) == '*') {
-				// 这里搜索，必须要用记忆加速
-				dp[sIndex][pIndex] = dp[sIndex+1][pIndex] || dp[sIndex][pIndex+1];
+				if (p.charAt(j-1) == '?' || s.charAt(i-1) == p.charAt(j-1)) {
+					
+					dp[i][j] = dp[i-1][j-1];
+					
+				} else if (p.charAt(j-1) == '*') {
+					
+					dp[i][j] = dp[i-1][j] || dp[i][j-1];
+				}
 			}
 			
 		}
+				
+//		int pIndex=1;
+//		int sIndex=1;
+//		while(pIndex<=p.length()&&sIndex<=s.length()) {
+//			
+//			if (p.charAt(pIndex-1) == '?' || s.charAt(sIndex-1) == p.charAt(pIndex-1)) {
+//				
+//				dp[sIndex][pIndex] = dp[sIndex-1][pIndex-1];
+//				
+//			} else if (p.charAt(pIndex-1) == '*') {
+//				
+//				dp[sIndex][pIndex] = dp[sIndex-1][pIndex] || dp[sIndex][pIndex-1];
+//			}
+//			
+//			pIndex++;
+//			sIndex++;
+//		}
 
-		return dp[];
+		return dp[sLen][pLen];
 
 	}
 }

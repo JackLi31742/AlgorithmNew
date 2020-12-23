@@ -1,4 +1,4 @@
-package design;
+package design.system;
 /**
  * 355. 设计推特
  * 设计一个简化版的推特(Twitter)，可以让用户实现发送推文，关注/取消关注其他用户，
