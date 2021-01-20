@@ -6,6 +6,20 @@ import java.util.Set;
 public class WordBreak {
 
 	/**
+	 * 107. 单词拆分 I
+
+		给定字符串 s 和单词字典 dict，确定 s 是否可以分成一个或多个以空格分隔的子串，并且这些子串都在字典中存在。
+因为我们已经使用了更强大的数据，所以普通的DFS方法已经无法通过此题。
+	 * @param s
+	 * @param wordSet
+	 * @return
+	 */
+	public boolean wordBreak(String s, Set<String> wordSet) {
+        // write your code here
+    }
+	
+	
+	/**
 	 * 582. 单词拆分II
 		给一字串s和单词的字典dict,在字串中增加空格来构建一个句子，并且所有单词都来自字典。
 		返回所有有可能的句子。
