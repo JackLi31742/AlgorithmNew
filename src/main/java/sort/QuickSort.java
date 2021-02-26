@@ -24,7 +24,7 @@ public class QuickSort {
 		if (nums==null||nums.length<2) {
 			return nums;
 		}
-		sort6(nums,0,nums.length-1);
+		sort5(nums,0,nums.length-1);
 		
 		return nums;
 	}
