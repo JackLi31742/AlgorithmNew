@@ -32,7 +32,7 @@ public class BST {
 //		System.out.println(stack);
 //		bst.insertNode(node1, node3);
 		
-//		bst.removeNode(node1, 20);
+		bst.removeNode(node1, 20);
 		
 		bst.closestKValues(node1, 5, 2);
 	}
