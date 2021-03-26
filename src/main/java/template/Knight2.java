@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import bfs.Point;
+
 
 /**
  * 如果求最短路径和以及有几条路线，用dp
