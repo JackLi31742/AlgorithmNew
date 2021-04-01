@@ -1,4 +1,4 @@
-package template;
+package template.bfs;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

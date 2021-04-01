@@ -1,4 +1,4 @@
-package template;
+package template.tree;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

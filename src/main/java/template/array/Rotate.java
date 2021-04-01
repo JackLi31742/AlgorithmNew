@@ -1,4 +1,4 @@
-package template;
+package template.array;
 
 public class Rotate {
 

@@ -1,4 +1,4 @@
-package template;
+package template.list;
 
 import java.util.LinkedList;
 
