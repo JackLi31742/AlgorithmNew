@@ -25,6 +25,7 @@ public class Reverse {
 	}
 
 	/**
+	 * 206. 反转链表
 	 * 反转一个单链表。
 	 * 解法1、迭代法
 	 * @param head

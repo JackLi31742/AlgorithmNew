@@ -35,23 +35,25 @@ public class Maze {
 			return false;
 		}
 		
-		return hasPath(maze, destination, start[0], start[1]);
+//		return hasPath(maze, destination, start[0], start[1]);
 		
 		
-//		boolean[][] visited=new boolean[maze.length][maze[0].length];
-//		boolean result= dfs(maze, start, destination, visited);
-//		
-//		for (int i = 0; i < visited.length; i++) {
-//			for (int j = 0; j < visited[0].length; j++) {
-//				System.out.print(visited[i][j]+"\t");
-//			}
-//			System.out.println();
-//		}
-//		return result;
+		boolean[][] visited=new boolean[maze.length][maze[0].length];
+		boolean result= dfs(maze, start, destination, visited);
+		
+		for (int i = 0; i < visited.length; i++) {
+			for (int j = 0; j < visited[0].length; j++) {
+				System.out.print(visited[i][j]+"\t");
+			}
+			System.out.println();
+		}
+		return result;
 	}
 	/**
 	 * 约定： 当map[i][j] 为 0 表示该点没有走过 当为 1 表示墙  ； 2 表示通路可以走 ； 3 表示该点已经走过，但是走不通
 		在走迷宫时，需要确定一个策略(方法) 下->右->上->左 , 如果该点走不通，再回溯
+		
+		这个方法是错的
 	 * @param maze
 	 * @param destination
 	 * @param i 行标
@@ -90,7 +92,7 @@ public class Maze {
 		
 	}
 	/**
-	 * 以下算法，在lintcode里跑通了，但是测试是有问题的
+	 * 以下算法，超时
 	 */
 	int[] deltaX = new int[] {0, 0, -1, 1};
     int[] deltaY = new int[] {1, -1, 0, 0};

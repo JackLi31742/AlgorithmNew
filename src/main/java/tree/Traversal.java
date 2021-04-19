@@ -108,7 +108,7 @@ public class Traversal {
 	}
 	
 	/**
-	 * 中序遍历
+	 * 94 中序遍历
 	 * @param root
 	 * @return
 	 */
@@ -192,7 +192,7 @@ public class Traversal {
 	}
 	
 	/**
-	 * 后序遍历
+	 * 145 后序遍历
 	 */
 	public static List<Integer> postorderTraversal(TreeNode root) {
 		List<Integer> result=new ArrayList<Integer>();

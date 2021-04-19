@@ -61,7 +61,7 @@ public class Rotate {
 	 
 	 /**
 	  * 33. 搜索旋转排序数组
-	  * 非递归
+	  * 非递归,替换search4(int[] nums, int target,int left,int right)
 	  * @param nums
 	  * @param target
 	  * @param left

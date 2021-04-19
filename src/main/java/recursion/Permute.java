@@ -135,27 +135,7 @@ public class Permute {
         // write your code here
     }
 	
-	/**
-	 * 190. 下一个排列
-
-	给定一个若干整数的排列，给出按正数大小进行字典序从小到大排序后的下一个排列。
-
-	如果没有下一个排列，则输出字典序最小的序列
-	 * @param nums
-	 */
-	public void nextPermutation(int[] nums) {
-        // write your code here
-    }
 	
-	/**
-	 * 15. 全排列
-		给定一个数字列表，返回其所有可能的排列。
-	 * @param nums
-	 * @return
-	 */
-	public List<List<Integer>> permute(int[] nums) {
-        // write your code here
-    }
 	
 	/**
 	 * 197. 排列序号

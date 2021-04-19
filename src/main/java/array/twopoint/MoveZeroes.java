@@ -43,6 +43,7 @@ public class MoveZeroes {
 	
 	
 	//不保持原数组非0元素的顺序
+	//答案是错的
 	public static void moveZeroes2(int[] nums) {
 		
 		if (nums==null||nums.length==0) {

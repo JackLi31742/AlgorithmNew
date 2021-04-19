@@ -385,30 +385,7 @@ public class BinarySearch {
     }
 	
 	
-	public static int findMinIndex(int[] nums) {
-        // write your code here
-		
-		if (nums==null||nums.length==0) {
-			return Integer.MIN_VALUE;
-		}
-		
-		int left=0;
-		int right=nums.length-1;
-//		int target=nums[right];
-		
-		while(left+1<right) {
-			
-			int mid = left + (right-left)/2;
-			//当right指针变化时，为了加快搜索速度，可以将target的值不写死
-			if (nums[mid]<=nums[right]) {
-				right=mid;
-			}else {
-				left=mid;
-			}
-		}
-		
-		return nums[left]>nums[right]?right:left;
-    }
+	
 	
 	/**
 	 * 62. 搜索旋转排序数组
@@ -438,6 +415,31 @@ public class BinarySearch {
 			return binarySearch(A, target, 0, minIndex-1);
 		}
 	}
+	
+	public static int findMinIndex(int[] nums) {
+        // write your code here
+		
+		if (nums==null||nums.length==0) {
+			return Integer.MIN_VALUE;
+		}
+		
+		int left=0;
+		int right=nums.length-1;
+//		int target=nums[right];
+		
+		while(left+1<right) {
+			
+			int mid = left + (right-left)/2;
+			//当right指针变化时，为了加快搜索速度，可以将target的值不写死
+			if (nums[mid]<=nums[right]) {
+				right=mid;
+			}else {
+				left=mid;
+			}
+		}
+		
+		return nums[left]>nums[right]?right:left;
+    }
 	
 	/**
 	 * 
